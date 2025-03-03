@@ -1,0 +1,22 @@
+[
+  {
+    "username": "abc@gamil.com",
+    "password": "123"
+  },
+  {
+    "username": "user1",
+    "password": "password1"
+  },
+  {
+    "username": "admin",
+    "password": "admin"
+  },
+  {
+    "username": "admin",
+    "password": "admin"
+  },
+  {
+    "username": "hlo",
+    "password": "123"
+  }
+]
