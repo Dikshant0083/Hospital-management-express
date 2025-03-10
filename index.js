@@ -100,49 +100,49 @@ const apiRoutes = require('./api/apiRoutes') // Import the API routes for login 
 app.use('/api', apiRoutes) // Mount the API routes on /api path
 // Serve login.html at the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'login.html')) // Serve the login page at root URL
+  res.sendFile(path.join(__dirname, 'public', 'login.html')) // Serve the login page at root URL
 })
 // Serve dashboard.html when user is authenticated
 app.get('/api/index', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'index.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'public', 'index.html')) // Serve the dashboard HTML file
 })
 app.get('/index', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'index.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'public', 'index.html')) // Serve the dashboard HTML file
 })
 //contactus
 app.get('/contactus', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'contactus.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'public', 'contactus.html')) // Serve the dashboard HTML file
 })
 //services
 app.get('/services', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'services.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'public', 'services.html')) // Serve the dashboard HTML file
 })
 //gallery
 app.get('/gallery', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'gallery.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'public', 'gallery.html')) // Serve the dashboard HTML file
 })
 //aboutus
 app.get('/aboutus', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'aboutus.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'public', 'aboutus.html')) // Serve the dashboard HTML file
 })
 //appointment
 app.get('/appointment', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'appointment.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'public', 'appointment.html')) // Serve the dashboard HTML file
 })
 //blog
 app.get('/blog', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'blog.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'public', 'blog.html')) // Serve the dashboard HTML file
 })
 // Serve register.html when user needs to register
 app.get('/api/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'register.html')) // Serve the register HTML file
+  res.sendFile(path.join(__dirname, 'public', 'register.html')) // Serve the register HTML file
 })
 app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'register.html')) // Serve the register HTML file
+  res.sendFile(path.join(__dirname, 'public', 'register.html')) // Serve the register HTML file
 })
 // Serve login.html at the root URL
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'login.html')) // Serve the register HTML file
+  res.sendFile(path.join(__dirname, 'public', 'login.html')) // Serve the register HTML file
 })
 // Use error handler middleware for catching and handling errors
 app.use(errorHandler) // Handle errors globally
