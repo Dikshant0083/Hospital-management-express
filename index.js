@@ -1,28 +1,29 @@
-const express = require('express') // Express for routing and middleware management
-const path = require('path') // Path to handle file paths
+const express = require('express')
+const path = require('path')
 const app = express()
-//middleware                      
-const cors=require('cors');
-const bodyParser = require('body-parser');
-const helmet=require('helmet');
-const morgan = require('morgan'); // Logging middleware
-const rateLimit = require('express-rate-limit'); // Import the package
 
-// Define a rate limit: Allow 100 requests per 15 minutes per IP
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again later.',
-    headers: true, // Send rate limit info in headers
-});
+// Import middleware
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const helmet = require('helmet')
+const morgan = require('morgan')
+const rateLimit = require('express-rate-limit')
+const logger = require('./middlewares/logger')
+const errorHandler = require('./middlewares/errorHandler')
 
-// Apply the rate limiter to all API routes
-app.use('/api', limiter);
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Define port
+const PORT = process.env.PORT || 8080
+
+// Basic middleware setup
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(morgan('dev'))
-//app.use(helmet());
+app.use(logger)
+
+// Configure Helmet with appropriate CSP
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -58,13 +59,13 @@ app.use(
         objectSrc: ["'none'"],
         frameSrc: [
           "'self'", 
-          "https://www.google.com" // Allow embedding Google in iframes
+          "https://www.google.com"
         ],
       },
     },
     crossOriginEmbedderPolicy: false, 
     referrerPolicy: { policy: "no-referrer" },
-    frameguard: { action: "deny" }, // If you want to allow iframes, remove this line
+    frameguard: { action: "deny" },
     dnsPrefetchControl: { allow: false },
     hidePoweredBy: true,
     hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
@@ -72,81 +73,82 @@ app.use(
     noSniff: true,
     xssFilter: true,
   })
-);
+)
 
-
-// const PORT = 8080
-const PORT = process.env.PORT || 8080;
-
-
-// Import middlewares
-const logger = require('./middlewares/logger') // Import logger middleware
-const errorHandler = require('./middlewares/errorHandler') // Import error handler middleware
-// Middleware to handle JSON and URL-encoded data in POST requests
-app.use(express.json()) // To parse JSON bodies
-app.use(express.urlencoded({ extended: true })) // To parse URL-encoded data
-// Use logger middleware for all incoming requests
-app.use(logger) // Log each request
-// Serve static files (HTML, CSS, JS) from the /public directory
-
-//  app.use(express.static(path.join(__dirname, 'hospital website')))
-//
+// Serve static files from both directories
+// First serve from the public directory for CSS and JS
 app.use(express.static(path.join(__dirname, 'public')))
+// Then serve static files from hospital website directory for other resources
+app.use(express.static(path.join(__dirname, 'hospital website')))
 
-// app.use(express.static(path.join(__dirname, 'Hospital-project backend')))
+// Define rate limiter after static files but before routes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too many requests from this IP, please try again later.',
+  headers: true,
+})
 
-// Import API routes from apiRoutes.js
-const apiRoutes = require('./api/apiRoutes') // Import the API routes for login and register functionality
-app.use('/api', apiRoutes) // Mount the API routes on /api path
-// Serve login.html at the root URL
+// Apply rate limiter to API routes
+app.use('/api', limiter)
+
+// Import and use API routes
+const apiRoutes = require('./api/apiRoutes')
+app.use('/api', apiRoutes)
+
+// Define routes for HTML pages
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'login.html')) // Serve the login page at root URL
+  res.sendFile(path.join(__dirname, 'hospital website', 'login.html'))
 })
-// Serve dashboard.html when user is authenticated
+
 app.get('/api/index', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'index.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'index.html'))
 })
+
 app.get('/index', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'index.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'index.html'))
 })
-//contactus
+
 app.get('/contactus', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'contactus.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'contactus.html'))
 })
-//services
+
 app.get('/services', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'services.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'services.html'))
 })
-//gallery
+
 app.get('/gallery', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'gallery.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'gallery.html'))
 })
-//aboutus
+
 app.get('/aboutus', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'aboutus.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'aboutus.html'))
 })
-//appointment
+
 app.get('/appointment', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'appointment.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'appointment.html'))
 })
-//blog
+
 app.get('/blog', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'blog.html')) // Serve the dashboard HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'blog.html'))
 })
-// Serve register.html when user needs to register
+
 app.get('/api/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'register.html')) // Serve the register HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'register.html'))
 })
+
 app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'register.html')) // Serve the register HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'register.html'))
 })
-// Serve login.html at the root URL
+
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'hospital website', 'login.html')) // Serve the register HTML file
+  res.sendFile(path.join(__dirname, 'hospital website', 'login.html'))
 })
-// Use error handler middleware for catching and handling errors
-app.use(errorHandler) // Handle errors globally
-// Start the server and listen on the specified port
+
+// Error handler should be last
+app.use(errorHandler)
+
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`)
 })
