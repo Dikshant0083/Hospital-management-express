@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital-Management</title>
+    <script src="https://kit.fontawesome.com/c1df782baf.js"></script>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin:0; 
+           padding:0;
+            box-sizing: border-box;
+           outline: none; 
+           border:none;
+         text-decoration: none;
+         text-transform: capitalize;
+         transition:all .2s linear;
+         font-family: "Inter", sans-serif;
+        }
+
+        body {
+            background-color:white;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            padding: 1rem 7%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color:#2ec8a6;
+        }
+
+        .right-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        #menu-bars {
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+        }
+
+        .btn {
+            background-color: #2ec8a6;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color:#2ec8a6;
+        }
+
+        /* Main Content Styles */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background-color: #2ec8a6;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Styles */
+        .appointment-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .patient-info h2 {
+            margin-bottom: 1.5rem;
+            color: #2ec8a6;
+            font-size: 1.8rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background-color:#2ec8a6;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: rgb(239, 159, 10);
+        }
+
+        /* Appointment List Styles */
+        .appointment-list {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-list h2 {
+            margin-bottom: 1.5rem;
+            color: #2ec8a6;
+            font-size: 1.8rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f2f5f8;
+            font-weight: 600;
+            color:#2ec8a6;
+        }
+
+        tr:hover {
+            background-color: #f9fbfd;
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 4%;
+            }
+
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                border-top: 1px solid #eee;
+                display: none;
+                flex-direction: column;
+                padding: 1rem 0;
+            }
+
+            .navbar.active {
+                display: flex;
+            }
+
+            #menu-bars {
+                display: block;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><img src="/images/logo3.png" alt="Hospital Logo"></div>
+        
+        <nav class="navbar">
+            <a href="/index">Home</a>
+            <a href="/aboutus">About</a>
+            <a href="/services">Service</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/blog">Blog</a>
+            <a href="/contactus">Contact</a>
+        </nav>
+        
+        <div class="right-icons">
+            <div id="menu-bars" class="fas fa-bars"></div>
+            <!-- <div class="btn" id="appointment-btn">Make Appointment</div> -->
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="tab-container">
+            <div class="tab active" data-tab="appointment-form">Make Appointment</div>
+            <div class="tab" data-tab="appointment-list">My Appointments</div>
+        </div>
+
+        <div class="alert alert-success" id="success-alert">
+            Appointment successfully booked! An email confirmation has been sent.
+        </div>
+
+        <div class="alert alert-error" id="error-alert">
+            Please fill in all required fields.
+        </div>
+
+        <div class="tab-content active" id="appointment-form">
+            <!-- Appointment Form -->
+            <form class="appointment-form" id="patient-form">
+                <div class="patient-info">
+                    <h2>Patient information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your first name *</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Your last name *</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Address line 1 *</label>
+                            <input type="text" placeholder="your address here" id="address1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Address line 2</label>
+                            <input type="text" placeholder="your address here" id="address2">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Choose doctor name *</label>
+                            <select id="doctor" required>
+                                <option value="">Select a doctor</option>
+                                <option value="Ben Allen">Dr. Ben Allen</option>
+                                <option value="Sarah Johnson">Dr. Sarah Johnson</option>
+                                <option value="Michael Lee">Dr. Michael Lee</option>
+                                <option value="Emma Rodriguez">Dr. Emma Rodriguez</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Select department *</label>
+                            <select id="department" required>
+                                <option value="">Select a department</option>
+                                <option value="Cardiology">Cardiology</option>
+                                <option value="Neurology">Neurology</option>
+                                <option value="Orthopedics">Orthopedics</option>
+                                <option value="Pediatrics">Pediatrics</option>
+                                <option value="Dermatology">Dermatology</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date of birth *</label>
+                            <input type="date" id="dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Appointment date *</label>
+                            <input type="date" id="appointmentDate" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Appointment note</label>
+                        <textarea placeholder="Reason for appointment" id="note"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Are you the patient? *</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="isPatient" value="yes" checked> Yes
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="isPatient" value="no"> No
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Make an appointment</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="tab-content" id="appointment-list">
+            <div class="appointment-list">
+                <h2>My Appointments</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Appointment ID</th>
+                            <th>Date</th>
+                            <th>Doctor</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointments-table-body">
+                        <!-- Appointments will be loaded dynamically here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function () {
+    // DOM Elements
+    const menuBars = document.getElementById('menu-bars');
+    const navbar = document.querySelector('.navbar');
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const appointmentForm = document.getElementById('patient-form');
+    const appointmentBtn = document.getElementById('appointment-btn');
+    const successAlert = document.getElementById('success-alert');
+    const errorAlert = document.getElementById('error-alert');
+    const appointmentsTableBody = document.getElementById('appointments-table-body');
+
+    // Ensure elements exist before adding event listeners
+    if (menuBars && navbar) {
+        menuBars.addEventListener('click', () => {
+            navbar.classList.toggle('active');
+        });
+    }
+
+    if (tabs.length > 0 && tabContents.length > 0) {
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId)?.classList.add('active');
+
+                // If appointments tab is clicked, load appointments
+                if (tabId === 'appointment-list') {
+                    loadAppointments();
+                }
+            });
+        });
+    }
+
+    if (appointmentBtn) {
+        appointmentBtn.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+
+            document.querySelector('[data-tab="appointment-form"]')?.classList.add('active');
+            document.getElementById('appointment-form')?.classList.add('active');
+        });
+    }
+
+    // Generate a unique ID for appointments
+    function generateAppointmentId() {
+        return 'APP' + Date.now().toString().slice(-8);
+    }
+
+    // Form submission
+    if (appointmentForm) {
+        appointmentForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Basic validation - check if required fields are filled
+            const requiredFields = appointmentForm.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = '#dc3545';
+                } else {
+                    field.style.borderColor = '#ddd';
+                }
+            });
+
+            if (!isValid) {
+                if (errorAlert) {
+                    errorAlert.style.display = 'block';
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 5000);
+                }
+                return;
+            }
+
+            // Get form data
+            const appointmentData = {
+                id: generateAppointmentId(),
+                firstName: document.getElementById('firstName')?.value || '',
+                lastName: document.getElementById('lastName')?.value || '',
+                address1: document.getElementById('address1')?.value || '',
+                address2: document.getElementById('address2')?.value || '',
+                doctor: document.getElementById('doctor')?.value || '',
+                department: document.getElementById('department')?.value || '',
+                email: document.getElementById('email')?.value || '',
+                phone: document.getElementById('phone')?.value || '',
+                dob: document.getElementById('dob')?.value || '',
+                appointmentDate: document.getElementById('appointmentDate')?.value || '',
+                note: document.getElementById('note')?.value || '',
+                isPatient: document.querySelector('input[name="isPatient"]:checked')?.value || '',
+                status: 'Pending',
+                createdAt: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            saveAppointment(appointmentData);
+
+            // Show success message
+            if (successAlert) {
+                successAlert.style.display = 'block';
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 5000);
+            }
+
+            // Simulate email notification
+            sendEmailNotification(appointmentData);
+
+            // Reset form
+            appointmentForm.reset();
+        });
+    }
+
+    // Save appointment to localStorage
+    function saveAppointment(appointmentData) {
+        let appointments = JSON.parse(localStorage.getItem('hospitalAppointments')) || [];
+        appointments.push(appointmentData);
+        localStorage.setItem('hospitalAppointments', JSON.stringify(appointments));
+    }
+
+    // Load appointments from localStorage
+    function loadAppointments() {
+        const appointments = JSON.parse(localStorage.getItem('hospitalAppointments')) || [];
+        if (appointmentsTableBody) {
+            appointmentsTableBody.innerHTML = '';
+
+            if (appointments.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="5" style="text-align: center;">No appointments found</td>`;
+                appointmentsTableBody.appendChild(row);
+            } else {
+                appointments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                appointments.forEach(appointment => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${appointment.id}</td>
+                        <td>${formatDate(appointment.appointmentDate)}</td>
+                        <td>Dr. ${appointment.doctor}</td>
+                        <td>${appointment.department}</td>
+                        <td>${appointment.status}</td>
+                    `;
+                    appointmentsTableBody.appendChild(row);
+                });
+            }
+        }
+    }
+
+    // Format date to a readable format
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    // Simulate sending email notification
+    function sendEmailNotification(appointmentData) {
+        console.log('Sending email notification to:', appointmentData.email);
+        console.log('Appointment details:', appointmentData);
+    }
+
+    // Set today's date as the minimum for the appointment date
+    const appointmentDateInput = document.getElementById('appointmentDate');
+    if (appointmentDateInput) {
+        appointmentDateInput.min = new Date().toISOString().split('T')[0];
+    }
+});
+</script>
+</body>
+</html>

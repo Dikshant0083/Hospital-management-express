@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Hospital Management</title>
+    <script src="https://kit.fontawesome.com/c1df782baf.js"></script>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+        :root {
+            --maincolor: #2ec8a6;
+            --secondcolor: #f8a803;
+            --thirdcolor: #f4ab01;
+            --textcolor: #4A5764;
+            --lightgray: #f5f7fa;
+            --bordercolor: #e1e5e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            border: none;
+            text-decoration: none;
+            text-transform: capitalize;
+            transition: all .2s linear;
+            font-family: "Inter", sans-serif;
+        }
+
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            scroll-padding-top: 6rem;
+        }
+
+        body {
+            background-color: var(--lightgray);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 7%;
+            width: 100%;
+            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+            z-index: 1000;
+            background-color: white !important;
+        }
+
+        .logo {
+            width: 150px;
+        }
+
+        .logo img {
+            width: 100%;
+        }
+
+        .navbar a {
+            color: var(--textcolor);
+            font-size: 1.7rem;
+            margin: 1rem;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .navbar a:hover {
+            color: var(--maincolor);
+        }
+
+        .navbar a::after {
+            content: "";
+            background-color: var(--maincolor);
+            width: 0;
+            position: absolute;
+            height: 0.2rem;
+            left: 0;
+            margin-top: 0.5rem;
+            top: 100%;
+            transition: 0.5s;
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        #menu-bars {
+            color: var(--textcolor);
+            font-size: 2.5rem;
+            cursor: pointer;
+            margin-right: 1rem;
+            display: none;
+        }
+
+        #menu-bars:hover {
+            color: var(--maincolor);
+        }
+
+        .right-icons .btn {
+            padding: 1.2rem 2rem;
+            font-size: 1.7rem;
+            background: var(--maincolor);
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .right-icons .btn:hover {
+            background-color: var(--secondcolor);
+        }
+
+        /* Services Section */
+        .services-container {
+            padding: 12rem 7% 5rem;
+            background-image: url(/images/blurbg1.jpg);
+        }
+
+        .section-title {
+            text-align: center;
+            padding-bottom: 4rem;
+        }
+
+        .section-title h1 {
+            font-size: 3.6rem;
+            color: var(--textcolor);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.8rem;
+            color: #777;
+            max-width: 70%;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+            gap: 3rem;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card:hover {
+            transform: translateY(-1rem);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: var(--maincolor);
+            opacity: 0.1;
+            z-index: -1;
+            transition: height 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            height: 100%;
+        }
+
+        .service-icon {
+            width: 8rem;
+            height: 8rem;
+            margin: 3rem auto 1.5rem;
+            background-color: var(--lightgray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .service-card:hover .service-icon {
+            background-color: white;
+        }
+
+        .service-icon i {
+            font-size: 3.5rem;
+            color: var(--maincolor);
+        }
+
+        .service-content {
+            padding: 2rem 3rem 3rem;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-title {
+            font-size: 2.4rem;
+            color: var(--textcolor);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-description {
+            font-size: 1.6rem;
+            color: #777;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .service-link {
+            display: inline-block;
+            margin-top: 2rem;
+            font-size: 1.6rem;
+            color: var(--maincolor);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .service-link::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--maincolor);
+            transition: width 0.3s ease;
+        }
+
+        .service-card:hover .service-link::after {
+            width: 100%;
+        }
+
+        /* Analytics Section */
+        .analytics-section {
+            background-color: white;
+            padding: 5rem 7%;
+            margin-top: 5rem;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .chart-box {
+            background-color: var(--lightgray);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .chart-box:hover {
+            transform: translateY(-0.5rem);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        .chart-title {
+            font-size: 2rem;
+            color: var(--textcolor);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 30rem !important;
+        }
+
+        .section-subtitle {
+            font-size: 2.4rem;
+            color: var(--textcolor);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Patient Management Section */
+        .patient-management-section {
+            background-color: white;
+            padding: 5rem 7%;
+            margin-top: 5rem;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        .tabs-container {
+            margin-top: 3rem;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--bordercolor);
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.6rem;
+            color: var(--textcolor);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            color: var(--maincolor);
+            border-bottom: 3px solid var(--maincolor);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Search and Filters */
+        .search-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-box {
+            display: flex;
+            background-color: var(--lightgray);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            width: 30rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1.2rem;
+            font-size: 1.5rem;
+            background-color: transparent;
+        }
+
+        .search-btn {
+            width: 5rem;
+            background-color: var(--maincolor);
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-select {
+            padding: 1rem 1.5rem;
+            font-size: 1.5rem;
+            background-color: var(--lightgray);
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Patient Table */
+        .patient-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .patient-table th, .patient-table td {
+            padding: 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bordercolor);
+            font-size: 1.5rem;
+        }
+
+        .patient-table th {
+            color: var(--textcolor);
+            font-weight: 600;
+            background-color: var(--lightgray);
+        }
+
+        .patient-table tr:hover {
+            background-color: rgba(46, 200, 166, 0.05);
+        }
+
+        .patient-table td:last-child {
+            text-align: center;
+        }
+
+        .patient-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(46, 200, 166, 0.2);
+            color: var(--maincolor);
+        }
+
+        .status-pending {
+            background-color: rgba(248, 168, 3, 0.2);
+            color: var(--secondcolor);
+        }
+
+        .status-discharged {
+            background-color: rgba(74, 87, 100, 0.1);
+            color: var(--textcolor);
+        }
+
+        .action-btn {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin: 0 0.3rem;
+        }
+
+        .view-btn {
+            background-color: rgba(46, 200, 166, 0.1);
+            color: var(--maincolor);
+        }
+
+        .edit-btn {
+            background-color: rgba(248, 168, 3, 0.1);
+            color: var(--secondcolor);
+        }
+
+        .delete-btn {
+            background-color: rgba(255, 87, 87, 0.1);
+            color: #ff5757;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Patient Registration Form */
+        .patient-form {
+            max-width: 80rem;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 1.6rem;
+            color: var(--textcolor);
+            margin-bottom: 0.8rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.5rem;
+            background-color: var(--lightgray);
+            border-radius: 0.5rem;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 10rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+            gap: 2rem;
+        }
+
+        .submit-btn {
+            padding: 1.2rem 3rem;
+            font-size: 1.6rem;
+            background-color: var(--maincolor);
+            color: white;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--secondcolor);
+        }
+
+        /* Appointment Scheduler */
+        .scheduler-container {
+            display: grid;
+            grid-template-columns: 30rem 1fr;
+            gap: 2rem;
+        }
+
+        .calendar {
+            background-color: var(--lightgray);
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .month-year {
+            font-size: 1.8rem;
+            color: var(--textcolor);
+            font-weight: 600;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .calendar-nav-btn {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--textcolor);
+        }
+
+        .calendar-nav-btn:hover {
+            background-color: var(--maincolor);
+            color: white;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .weekday {
+            text-align: center;
+            font-size: 1.4rem;
+            color: var(--textcolor);
+            font-weight: 600;
+            padding: 0.8rem;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day {
+            text-align: center;
+            font-size: 1.4rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            background-color: white;
+        }
+
+        .day:hover {
+            background-color: var(--maincolor);
+            color: white;
+        }
+
+        .day.active {
+            background-color: var(--maincolor);
+            color: white;
+            font-weight: 600;
+        }
+
+        .day.other-month {
+            opacity: 0.5;
+        }
+
+        .day.has-events::after {
+            content: '';
+            display: block;
+            width: 0.6rem;
+            height: 0.6rem;
+            background-color: var(--secondcolor);
+            border-radius: 50%;
+            margin: 0.5rem auto 0;
+        }
+
+        .day.active.has-events::after {
+            background-color: white;
+        }
+
+        .time-slots {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+
+        .date-header {
+            font-size: 2rem;
+            color: var(--textcolor);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bordercolor);
+        }
+
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+            gap: 1.5rem;
+        }
+
+        .time-slot {
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            background-color: var(--lightgray);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .time-slot.available:hover {
+            background-color: var(--maincolor);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .time-slot.booked {
+            background-color: rgba(255, 87, 87, 0.1);
+            color: #ff5757;
+            cursor: not-allowed;
+        }
+
+        .time-slot.selected {
+            background-color: var(--maincolor);
+            color: white;
+        }
+
+        .slot-time {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .slot-availability {
+            font-size: 1.3rem;
+            color: inherit;
+        }
+
+        /* Medical Records */
+        .records-container {
+            display: grid;
+            grid-template-columns: 25rem 1fr;
+            gap: 2rem;
+        }
+
+        .patient-list {
+            background-color: var(--lightgray);
+            border-radius: 1rem;
+            padding: 2rem;
+            height: 60rem;
+            overflow-y: auto;
+        }
+
+        .patient-search {
+            margin-bottom: 2rem;
+        }
+
+        .patient-search-input {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+        }
+
+        .patient-item {
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 0.8rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .patient-item:hover, .patient-item.active {
+            background-color: var(--maincolor);
+            transform: translateY(-3px);
+        }
+
+        .patient-item:hover .patient-name, .patient-item:hover .patient-id, .patient-item.active .patient-name, .patient-item.active .patient-id {
+            color: white;
+        }
+
+        .patient-name {
+            font-size: 1.6rem;
+            color: var(--textcolor);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .patient-id {
+            font-size: 1.3rem;
+            color: #777;
+        }
+
+        .record-content {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 3rem;
+            height: 60rem;
+            overflow-y: auto;
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--bordercolor);
+        }
+
+        .patient-info h3 {
+            font-size: 2.4rem;
+            color: var(--textcolor);
+            margin-bottom: 0.5rem;
+        }
+
+        .patient-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 1.5rem;
+            color: #777;
+        }
+
+        .record-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-button {
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .primary-action {
+            background-color: var(--maincolor);
+            color: white;
+        }
+
+        .secondary-action {
+            background-color: var(--lightgray);
+            color: var(--textcolor);
+        }
+
+        .record-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--bordercolor);
+            margin-bottom: 2rem;
+        }
+
+        .record-tab {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.6rem;
+            color: var(--textcolor);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .record-tab.active {
+            color: var(--maincolor);
+            border-bottom: 3px solid var(--maincolor);
+            font-weight: 600;
+        }
+
+        .record-tab-content {
+            display: none;
+        }
+
+        .record-tab-content.active {
+            display: block;
+        }
+
+        .medical-history {
+            margin-bottom: 3rem;
+        }
+
+        .history-title {
+            font-size: 1.8rem;
+            color: var(--textcolor);
+            margin-bottom: 1.5rem;
+        }
+
+        .history-item {
+            padding: 1.5rem;
+            background-color: var(--lightgray);
+            border-radius: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .history-date {
+            font-size: 1.4rem;
+            color: var(--secondcolor);
+            margin-bottom: 0.8rem;
+        }
+
+        .history-doctor {
+            font-size: 1.5rem;
+            color: var(--textcolor);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .history-details {
+            font-size: 1.5rem;
+            color: #777;
+            line-height: 1.6;
+        }
+
+        /* Billing Section */
+        .billing-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .billing-card {
+            padding: 2rem;
+            background-color: var(--lightgray);
+            border-radius: 1rem;
+        }
+
+        .billing-card-title {
+            font-size: 1.5rem;
+            color: #777;
+            margin-bottom: 1rem;
+        }
+
+        .billing-amount {
+            font-size: 2.4rem;
+            color: var(--textcolor);
+            font-weight: 600;
+        }
+
+        .billing-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .status-paid {
+            background-color: rgba(46, 200, 166, 0.2);
+            color: var(--maincolor);
+        }
+
+        .status-due {
+            background-color: rgba(248, 168, 3, 0.2);
+            color: var(--secondcolor);
+        }
+
+        .invoice-list {
+            margin-top: 2rem;
+        }
+
+        .invoice-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: var(--lightgray);
+            border-radius: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .invoice-details {
+            flex: 1;
+        }
+
+        .invoice-id {
+            font-size: 1.6rem;
+            color: var(--textcolor);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .invoice-date {
+            font-size: 1.4rem;
+            color: #777;
+        }
+
+        .invoice-amount {
+            font-size: 1.8rem;
+            color: var(--textcolor);
+            font-weight: 600;
+            margin: 0 2rem;
+        }
+
+        .invoice-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Patient Statistics */
+        .patient-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .stat-icon {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50%;
+            background-color: var(--lightgray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--maincolor);
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 2.4rem;
+            color: var(--textcolor);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.5rem;
+            color: #777;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 70rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 3rem;
+            transform: translateY(-50px);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bordercolor);
+        }
+
+        .modal-title {
+            font-size: 2.4rem;
+            color: var(--textcolor);
+        }
+
+        .modal-close {
+            font-size: 2.4rem;
+            color: #777;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 2rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--bordercolor);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991px) {
+            html {
+                font-size: 55%;
+            }
+
+            header {
+                padding: 1.5rem;
+            }
+
+            .services-container {
+                padding: 12rem 3% 3rem;
+            }
+
+            .analytics-section, .patient-management-section {
+                padding: 3rem;
+            }
+
+            .scheduler-container, .records-container {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-list, .record-content {
+                height: auto;
+                max-height: 40rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #menu-bars {
+                display: block;
+            }
+
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                border-top: 0.1rem solid rgba(0, 0, 0, 0.1);
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                padding: 1rem;
+                text-align: center;
+            }
+
+           \.navbar.active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.navbar a {
+    display: block;
+    margin: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background: var(--lightgray);
+}
+
+.navbar a:hover {
+    background: var(--maincolor);
+    color: white;
+}
+
+.navbar a::after {
+    display: none;
+}
+
+.section-title p {
+    max-width: 100%;
+}
+
+.search-filters {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.search-box {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.filters {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+.form-row {
+    grid-template-columns: 1fr;
+}
+}
+
+@media (max-width: 450px) {
+    html {
+        font-size: 50%;
+    }
+
+    .stat-card, .billing-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .patient-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .record-header {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .record-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .invoice-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .invoice-amount {
+        margin: 1rem 0;
+    }
+}
+
+/* Footer */
+.footer {
+    background-color: #2b3540;
+    padding: 5rem 7% 2rem;
+    margin-top: 5rem;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap: 4rem;
+}
+
+.footer-logo {
+    width: 150px;
+    margin-bottom: 2rem;
+}
+
+.footer-about p {
+    font-size: 1.5rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--maincolor);
+    transform: translateY(-5px);
+}
+
+.footer-heading {
+    font-size: 2.2rem;
+    color: white;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    width: 5rem;
+    height: 2px;
+    background-color: var(--maincolor);
+}
+
+.quick-links {
+    list-style: none;
+}
+
+.quick-links li {
+    margin-bottom: 1.2rem;
+}
+
+.quick-links a {
+    font-size: 1.5rem;
+    color: #ccc;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.quick-links a:hover {
+    color: var(--maincolor);
+    transform: translateX(5px);
+}
+
+.contact-info {
+    list-style: none;
+}
+
+.contact-info li {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: var(--maincolor);
+    flex-shrink: 0;
+}
+
+.contact-content {
+    flex: 1;
+}
+
+.contact-content h4 {
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.contact-content p {
+    font-size: 1.5rem;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.footer-newsletter p {
+    font-size: 1.5rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.newsletter-form {
+    display: flex;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.newsletter-input {
+    flex: 1;
+    padding: 1.2rem;
+    font-size: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.newsletter-input::placeholder {
+    color: #ccc;
+}
+
+.newsletter-btn {
+    padding: 0 2rem;
+    background-color: var(--maincolor);
+    color: white;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.newsletter-btn:hover {
+    background-color: var(--secondcolor);
+}
+
+.footer-bottom {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 1.5rem;
+    color: #ccc;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(2rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fadeIn {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 5rem;
+    height: 5rem;
+    border: 4px solid rgba(46, 200, 166, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--maincolor);
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 12rem;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 1.3rem;
+}
+
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.pagination-item {
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.5rem;
+    border-radius: 50%;
+    background-color: var(--lightgray);
+    color: var(--textcolor);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pagination-item:hover {
+    background-color: var(--maincolor);
+    color: white;
+}
+
+.pagination-item.active {
+    background-color: var(--maincolor);
+    color: white;
+}
+
+/* Print Styles */
+@media print {
+    header, .footer, .patient-list, .record-actions, .action-btn, .modal-overlay {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+    }
+
+    .record-content, .patient-table, .history-item, .invoice-item {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .record-content {
+        height: auto;
+        overflow: visible;
+    }
+}
+</style>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <img src="/images/logo3.png" alt="Hospital Logo">
+        </div>
+        <nav class="navbar">
+            <a href="/index">Home</a>
+            <a href="/aboutus">About</a>
+            <a href="/services">Service</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/blog">Blog</a>
+            <a href="/contactus">Contact</a>
+        </nav>
+        <div class="right-icons">
+            <a href="/appointment" class="btn">Make Appointment</a>
+        </div>
+        <div id="menu-bars" class="fas fa-bars"></div>
+    </header>
+
+    <!-- Services Section -->
+    <section class="services-container" id="services">
+        <div class="section-title">
+            <h1>Our Hospital Services</h1>
+            <p>Providing world-class healthcare services with advanced technologies and compassionate care. Explore our comprehensive range of services designed to meet your healthcare needs.</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fi fi-rr-stethoscope"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Patient Management</h3>
+                    <p class="service-description">Comprehensive patient registration, history tracking, and electronic medical records management for efficient healthcare delivery.</p>
+                    <a href="#patient-management" class="service-link">Learn More</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fi fi-rr-calendar"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Appointment Scheduling</h3>
+                    <p class="service-description">Streamlined appointment booking, management, and reminders to reduce wait times and improve patient satisfaction.</p>
+                    <a href="#appointment-scheduling" class="service-link">Learn More</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fi fi-rr-doctor"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Doctor Management</h3>
+                    <p class="service-description">Efficient scheduling, profile management, and performance tracking for healthcare providers and specialists.</p>
+                    <a href="#doctor-management" class="service-link">Learn More</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fi fi-rr-file-medical-alt"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Medical Records</h3>
+                    <p class="service-description">Secure, centralized storage of patient medical histories, test results, diagnoses, and treatment plans.</p>
+                    <a href="#medical-records" class="service-link">Learn More</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fi fi-rr-receipt"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Billing & Invoicing</h3>
+                    <p class="service-description">Automated billing, insurance processing, and financial reporting to streamline revenue cycle management.</p>
+                    <a href="#billing" class="service-link">Learn More</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fi fi-rr-chart-line-up"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Analytics & Reporting</h3>
+                    <p class="service-description">Data-driven insights on hospital operations, patient demographics, and treatment outcomes for continuous improvement.</p>
+                    <a href="#analytics" class="service-link">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Section -->
+    <section class="analytics-section" id="analytics">
+        <div class="section-title">
+            <h1>Hospital Analytics</h1>
+            <p>Data-driven insights to improve healthcare delivery and operational efficiency.</p>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-box">
+                <h3 class="chart-title">Patient Admissions (Monthly)</h3>
+                <canvas id="admissionsChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3 class="chart-title">Department Distribution</h3>
+                <canvas id="departmentChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Patient Management Section -->
+    <section class="patient-management-section" id="patient-management">
+        <div class="section-title">
+            <h1>Patient Management System</h1>
+            <p>Comprehensive tools for managing patient data, appointments, and medical records.</p>
+        </div>
+
+        <!-- Patient Statistics -->
+        <div class="patient-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fi fi-rr-user"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">1,285</h3>
+                    <p class="stat-label">Active Patients</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fi fi-rr-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">148</h3>
+                    <p class="stat-label">Today's Appointments</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fi fi-rr-bed-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">72%</h3>
+                    <p class="stat-label">Bed Occupancy</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fi fi-rr-doctor"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-value">58</h3>
+                    <p class="stat-label">Available Doctors</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="patients">Patient Registry</div>
+                <div class="tab" data-tab="registration">New Registration</div>
+                <div class="tab" data-tab="appointments">Appointment Scheduler</div>
+                <div class="tab" data-tab="records">Medical Records</div>
+                <div class="tab" data-tab="billing">Billing</div>
+            </div>
+
+            <!-- Patients Tab -->
+            <div class="tab-content active" id="patients-tab">
+                <div class="search-filters">
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Search patients...">
+                        <button class="search-btn"><i class="fi fi-rr-search"></i></button>
+                    </div>
+                    <div class="filters">
+                        <select class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="pending">Pending</option>
+                            <option value="discharged">Discharged</option>
+                        </select>
+                        <select class="filter-select">
+                            <option value="">All Departments</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="neurology">Neurology</option>
+                            <option value="orthopedics">Orthopedics</option>
+                            <option value="pediatrics">Pediatrics</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table class="patient-table">
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Patient Name</th>
+                            <th>Age/Gender</th>
+                            <th>Contact</th>
+                            <th>Department</th>
+                            <th>Last Visit</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>P-10125</td>
+                            <td>John Doe</td>
+                            <td>45/M</td>
+                            <td>+1-555-678-4321</td>
+                            <td>Cardiology</td>
+                            <td>15 Feb 2025</td>
+                            <td><span class="patient-status status-active">Active</span></td>
+                            <td>
+                                <button class="action-btn view-btn" title="View"><i class="fi fi-rr-eye"></i></button>
+                                <button class="action-btn edit-btn" title="Edit"><i class="fi fi-rr-edit"></i></button>
+                                <button class="action-btn delete-btn" title="Delete"><i class="fi fi-rr-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>P-10126</td>
+                            <td>Jane Smith</td>
+                            <td>32/F</td>
+                            <td>+1-555-987-6543</td>
+                            <td>Neurology</td>
+                            <td>18 Feb 2025</td>
+                            <td><span class="patient-status status-active">Active</span></td>
+                            <td>
+                                <button class="action-btn view-btn" title="View"><i class="fi fi-rr-eye"></i></button>
+                                <button class="action-btn edit-btn" title="Edit"><i class="fi fi-rr-edit"></i></button>
+                                <button class="action-btn delete-btn" title="Delete"><i class="fi fi-rr-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>P-10127</td>
+                            <td>Michael Johnson</td>
+                            <td>28/M</td>
+                            <td>+1-555-456-7890</td>
+                            <td>Orthopedics</td>
+                            <td>22 Feb 2025</td>
+                            <td><span class="patient-status status-pending">Pending</span></td>
+                            <td>
+                                <button class="action-btn view-btn" title="View"><i class="fi fi-rr-eye"></i></button>
+                                <button class="action-btn edit-btn" title="Edit"><i class="fi fi-rr-edit"></i></button>
+                                <button class="action-btn delete-btn" title="Delete"><i class="fi fi-rr-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>P-10128</td>
+                            <td>Emily Davis</td>
+                            <td>56/F</td>
+                            <td>+1-555-234-5678</td>
+                            <td>Cardiology</td>
+                            <td>10 Feb 2025</td>
+                            <td><span class="patient-status status-discharged">Discharged</span></td>
+                            <td>
+                                <button class="action-btn view-btn" title="View"><i class="fi fi-rr-eye"></i></button>
+                                <button class="action-btn edit-btn" title="Edit"><i class="fi fi-rr-edit"></i></button>
+                                <button class="action-btn delete-btn" title="Delete"><i class="fi fi-rr-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <div class="pagination-item"><i class="fi fi-rr-angle-left"></i></div>
+                    <div class="pagination-item active">1</div>
+                    <div class="pagination-item">2</div>
+                    <div class="pagination-item">3</div>
+                    <div class="pagination-item"><i class="fi fi-rr-angle-right"></i></div>
+                </div>
+            </div>
+
+            <!-- Patient Registration Tab -->
+            <div class="tab-content" id="registration-tab">
+                <form class="patient-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="date" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <select class="form-select" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Address</label>
+                        <textarea class="form-textarea" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Department</label>
+                            <select class="form-select" required>
+                                <option value="">Select Department</option>
+                                <option value="cardiology">Cardiology</option>
+                                <option value="neurology">Neurology</option>
+                                <option value="orthopedics">Orthopedics</option>
+                                <option value="pediatrics">Pediatrics</option>
+                                <option value="general">General Medicine</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Doctor</label>
+                            <select class="form-select" required>
+                                <option value="">Select Doctor</option>
+                                <option value="dr-smith">Dr. Smith</option>
+                                <option value="dr-jones">Dr. Jones</option>
+                                <option value="dr-wilson">Dr. Wilson</option>
+                                <option value="dr-taylor">Dr. Taylor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Medical History</label>
+                        <textarea class="form-textarea"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Register Patient</button>
+                </form>
+            </div>
+
+            <!-- Appointment Scheduler Tab -->
+            <div class="tab-content" id="appointments-tab">
+                <div class="scheduler-container">
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <div class="month-year">March 2025</div>
+                            <div class="calendar-nav">
+                                <div class="calendar-nav-btn"><i class="fi fi-rr-angle-left"></i></div>
+                                <div class="calendar-nav-btn"><i class="fi fi-rr-angle-right"></i></div>
+                            </div>
+                        </div>
+                        <div class="weekdays">
+                            <div class="weekday">Sun</div>
+                            <div class="weekday">Mon</div>
+                            <div class="weekday">Tue</div>
+                            <div class="weekday">Wed</div>
+                            <div class="weekday">Thu</div>
+                            <div class="weekday">Fri</div>
+                            <div class="weekday">Sat</div>
+                        </div>
+                        <div class="days">
+                            <div class="day other-month">23</div>
+                            <div class="day other-month">24</div>
+                            <div class="day other-month">25</div>
+                            <div class="day other-month">26</div>
+                            <div class="day other-month">27</div>
+                            <div class="day other-month">28</div>
+                            <div class="day">1</div>
+                            <div class="day">2</div>
+                            <div class="day has-events">3</div>
+                            <div class="day has-events">4</div>
+                            <div class="day">5</div>
+                            <div class="day">6</div>
+                            <div class="day">7</div>
+                            <div class="day has-events">8</div>
+                            <div class="day">9</div>
+                            <div class="day">10</div>
+                            <div class="day">11</div>
+                            <div class="day has-events">12</div>
+                            <div class="day">13</div>
+                            <div class="day">14</div>
+                            <div class="day">15</div>
+                            <div class="day">16</div>
+                            <div class="day">17</div>
+                            <div class="day has-events">18</div>
+                            <div class="day">19</div>
+                            <div class="day">20</div>
+                            <div class="day has-events">21</div>
+                            <div class="day">22</div>
+                            <div class="day">23</div>
+                            <div class="day">24</div>
+                            <div class="day active has-events">25</div>
+                            <div class="day">26</div>
+                            <div class="day">27</div>
+                            <div class="day">28</div>
+                            <div class="day">29</div>
+                            <div class="day">30</div>
+                            <div class="day">31</div>
+                            <div class="day other-month">1</div>
+                            <div class="day other-month">2</div>
+                            <div class="day other-month">3</div>
+                            <div class="day other-month">4</div>
+                            <div class="day other-month">5</div>
+                        </div>
+                    </div>
+
+                    <div class="time-slots">
+                        <div class="date-header">March 25, 2025</div>
+                        <div class="slots-grid">
+                            <div class="time-slot booked">
+                                <div class="slot-time">9:00 AM</div>
+                                <div class="slot-availability">Booked</div>
+                            </div>
+                            <div class="time-slot booked">
+                                <div class="slot-time">9:30 AM</div>
+                                <div class="slot-availability">Booked</div>
+                            </div>
+                            <div class="time-slot available">
+                                <div class="slot-time">10:00 AM</div>
+                                <div class="slot-availability">Available</div>
+                            </div>
+                            <div class="time-slot available">
+                                <div class="slot-time">10:30 AM</div>
+                                <div class="slot-availability">Available</div>
+                            </div>
+                            <div class="time-slot booked">
+                                <div class="slot-time">11:00 AM</div>
+                                <div class="slot-availability">Booked</div>
+                            </div>
+                            <div class="time-slot selected">
+                                <div class="slot-time">11:30 AM</div>
+                                <div class="slot-availability">Selected</div>
+                            </div>
+                            <div class="time-slot available">
+                                <div class="slot-time">12:00 PM</div>
+                                <div class="slot-availability">Available</div>
+                            </div>
+                            <div class="time-slot available">
+                                <div class="slot-time">12:30 PM</div>
+                                <div class="slot-availability">Available</div>
+                            </div>
+                            <div class="time-slot booked">
+                                <div class="slot-time">1:00 PM</div>
+                                <div class="slot-availability">Booked</div>
+                            </div>
+                            <div class="time-slot available">
+                                <div class="slot-time">1:30 PM</div>
+                                <div class="slot-availability">Available</div>
+                            </div>
+                            <div class="time-slot available">
+                                <div class="slot-time">2:00 PM</div>
+                                <div class="slot-availability">Available</div>
+                            </div>
+                            <div class="time-slot available">
+                                <div class="slot-time">2:30 PM</div>
+                                <div class="slot-availability">Available</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical Records Tab -->
+            <div class="tab-content" id="records-tab">
+                <div class="records-container">
+                    <div class="patient-list">
+                        <div class="patient-search">
+                            <input type="text" class="patient-search-input" placeholder="Search patient...">
+                        </div>
+                        <div class="patient-item active">
+                            <div class="patient-name">John Doe</div>
+                            <div class="patient-id">P-10125</div>
+                        </div>
+                        <div class="patient-item">
+                            <div class="patient-name">Jane Smith</div>
+                            <div class="patient-id">P-10126</div>
+                        </div>
+                        <div class="patient-item">
+                            <div class="patient-name">Michael Johnson</div>
+                            <div class="patient-id">P-10127</div>
+                        </div>
+                        <div class="patient-item">
+                            <div class="patient-name">Emily Davis</div>
+                            <div class="patient-id">P-10128</div>
+                        </div>
+                    </div>
+
+                    <div class="record-content">
+                        <div class="record-header">
+                            <div class="patient-info">
+                                <h3>John Doe</h3>
+                                <div class="patient-meta">
+                                    <span>ID: P-10125</span>
+                                    <span>45 Years, Male</span>
+                                    <span>Blood Type: O+</span>
+                                </div>
+                            </div>
+                            <div class="record-actions">
+                                <button class="action-button primary-action"><i class="fi fi-rr-edit"></i> Edit</button>
+                                <button class="action-button secondary-action"><i class="fi fi-rr-print"></i> Print</button>
+                            </div>
+                        </div>
+
+                        <div class="record-tabs">
+                            <div class="record-tab active" data-tab="history">Medical History</div>
+                            <div class="record-tab" data-tab="visits">Recent Visits</div>
+                            <div class="record-tab" data-tab="lab">Lab Results</div>
+                            <div class="record-tab" data-tab="prescriptions">Prescriptions</div>
+                        </div>
+
+                        <div class="record-tab-content active" id="history-tab">
+                            <div class="medical-history">
+                                <h4 class="history-title">Chronic Conditions</h4>
+                                <div class="history-item">
+                                    <div class="history-date">Diagnosed: 10 Jan 2022</div>
+                                    <div class="history-doctor">Dr. Smith, Cardiology</div>
+                                    <div class="history-details">Hypertension (Essential primary) - Patient has been diagnosed with Stage 1 hypertension. Regular monitoring required. Patient advised on lifestyle changes and prescribed medication.</div>
+                                </div>
+                                <div class="history-item">
+                                    <div class="history-date">Diagnosed: 15 Mar 2021</div>
+                                    <div class="history-doctor">Dr. Wilson, Endocrinology</div>
+                                    <div class="history-details">Type 2 Diabetes - Patient shows elevated blood glucose levels. Treatment plan includes dietary changes, exercise, and oral medications.</div>
+                                </div>
+                            </div>
+
+                            <div class="medical-history">
+                                <h4 class="history-title">Allergies</h4>
+                                <div class="history-item">
+                                    <div class="history-details">Penicillin - Moderate reaction with rash and swelling.</div>
+                                </div>
+                                <div class="history-item">
+                                    <div class="history-details">Shellfish - Severe reaction requiring immediate attention.</div>
+                                </div>
+                            </div>
+
+                            <div class="medical-history">
+                                <h4 class="history-title">Surgical History</h4>
+                                <div class="history-item">
+                                    <div class="history-date">15 May 2018</div>
+                                    <div class="history-doctor">Dr. Taylor, General Surgery</div>
+                                    <div class="history-details">Appendectomy - Laparoscopic procedure for acute appendicitis. Recovery normal without complications.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Billing Tab -->
+            <div class="tab-content" id="billing-tab">
+                <div class="billing-summary">
+                    <div class="billing-card">
+                        <h4 class="billing-card-title">Total Outstanding</h4>
+                        <div class="billing-amount">$2,580.00</div>
+                        <div class="billing-status status-due">Payment Due</div>
+                    </div>
+                    <div class="billing-card">
+                        <h4 class="billing-card-title">Last Payment</h4>
+                        <div class="billing-amount">$1,250.00</div>
+                        <div class="billing-status status-paid">Paid on Feb 15, 2025</div>
+                    </div>
+                    <div class="billing-card">
+                        <h4 class="billing-card-title">Insurance Coverage</h4>
+                        <div class="billing-amount">70%</div>
+                    </div>
+                    <div class="billing-card">
+                        <h4 class="billing-card-title">Pending Claims</h4>
+                        <div class="billing-amount">3</div>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Recent Invoices</h3>
+                <div class="invoice-list">
+                    <div class="invoice-item">
+                        <div class="invoice-details">
+                            <div class="invoice-id">INV-2025-0125</div>
+                            <div class="invoice-date">Feb 28, 2025</div>
+                        </div>
+                        <div class="invoice-amount">$850.00</div>
+                        <div class="invoice-actions">
+                            <button class="action-button primary-action">Pay Now</button>
+                            <button class="action-button secondary-action"><i class="fi fi-rr-file-download"></i></button>
+                        </div>
+                    </div>
+                    <div class="invoice-item">
+                        <div class="invoice-details">
+                            <div class="invoice-id">INV-2025-0118</div>
+                            <div class="invoice-date">Feb 15, 2025</div>
+                        </div>
+                        <div class="invoice-amount">$1,250.00</div>
+                        <div class="invoice-actions">
+                            <button class="action-button secondary-action" disabled>Paid</button>
+                            <button class="action-button secondary-action"><i class="fi fi-rr-file-download"></i></button>
+                        </div>
+                    </div>
+                    <div class="invoice-item">
+                        <div class="invoice-details">
+                            <div class="invoice-id">INV-2025-0112</div>
+                            <div class="invoice-date">Feb 05, 2025</div>
+                        </div>
+                        <div class="invoice-amount">$480.00</div>
+                        <div class="invoice-actions">
+                            <button class="action-button primary-action">Pay Now</button>
+                            <button class="action-button secondary-action"><i class="fi fi-rr-file-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <img src="/images/logo.png" alt="Hospital Logo" class="footer-logo">
+                <p>Providing world-class healthcare services with advanced technologies and compassionate care. Our hospital management system streamlines operations to focus on what matters most - patient care.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-menu">
+                    <li><a href="/index">Home</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/doctors">Doctors</a></li>
+                    <li><a href="/patients">Patients</a></li>
+                    <li><a href="/appointment">Appointments</a></li>
+                    <li><a href="#records">Records</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h3 class="footer-title">Contact Us</h3>
+                <p><i class="fi fi-rr-map-marker"></i> 123 Medical Center Drive, Healthcare City, HC 12345</p>
+                <p><i class="fi fi-rr-phone-call"></i> +1 (555) 123-4567</p>
+                <p><i class="fi fi-rr-envelope"></i> contact@hospital.com</p>
+            </div>
+
+            <div class="footer-newsletter">
+                <h3 class="footer-title">Newsletter</h3>
+                <p>Subscribe to our newsletter to receive updates on health tips, hospital news, and special health programs.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Hospital Management System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Toggle mobile menu
+        document.getElementById('menu-bars').addEventListener('click', function() {
+            document.querySelector('.navbar').classList.toggle('active');
+            this.classList.toggle('fa-times');
+        });
+
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to selected tab and content
+                tab.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // Record tab functionality
+        const recordTabs = document.querySelectorAll('.record-tab');
+        const recordTabContents = document.querySelectorAll('.record-tab-content');
+
+        recordTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                recordTabs.forEach(t => t.classList.remove('active'));
+                recordTabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to selected tab and content
+                tab.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // Analytics charts
+        window.addEventListener('load', function() {
+            // Patient Admissions Chart
+            const admissionsCtx = document.getElementById('admissionsChart').getContext('2d');
+            const admissionsChart = new Chart(admissionsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Patient Admissions',
+                        data: [120, 145, 135, 160, 180, 190, 210, 205, 195, 220, 230, 240],
+                        borderColor: '#3F87F5',
+                        backgroundColor: 'rgba(63, 135, 245, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Department Distribution Chart
+            const departmentCtx = document.getElementById('departmentChart').getContext('2d');
+            const departmentChart = new Chart(departmentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cardiology', 'Neurology', 'Orthopedics', 'Pediatrics', 'General Medicine'],
+                    datasets: [{
+                        label: 'Patients',
+                        data: [25, 20, 18, 15, 22],
+                        backgroundColor: [
+                            '#3F87F5',
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    }
+                }
+            });
+        });
+
+        // Calendar functionality for appointment scheduler
+        const days = document.querySelectorAll('.day');
+        days.forEach(day => {
+            day.addEventListener('click', () => {
+                days.forEach(d => d.classList.remove('active'));
+                day.classList.add('active');
+                // Here you would typically update the time slots based on the selected day
+                document.querySelector('.date-header').textContent = `March ${day.textContent}, 2025`;
+            });
+        });
+
+        // Time slot selection
+        const timeSlots = document.querySelectorAll('.time-slot.available');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', () => {
+                timeSlots.forEach(s => s.classList.remove('selected'));
+                slot.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>

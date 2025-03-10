@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Details - Hospital Management Website</title>
+
+    <script src="https://kit.fontawesome.com/c1df782baf.js"></script>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional styles for blog details page */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --maincolor: #2EC8A6;
+    --secondcolor: #1A8B73;
+    --textcolor: #555;
+    --lightgray: #f8f9fa;
+    --darktext: #333;
+    --white: #ffffff;
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    transition: var(--transition);
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--white);
+    color: var(--textcolor);
+    line-height: 1.6;
+}
+
+/* Header Styles */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 7%;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    height: 80px;
+}
+
+.logo img {
+    height: 60px;
+}
+
+.navbar {
+    display: flex;
+    gap: 2rem;
+}
+
+.navbar a {
+    font-size: 1.7rem;
+    color: var(--darktext);
+    position: relative;
+    font-weight: 500;
+}
+
+.navbar a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: var(--maincolor);
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s;
+}
+
+.navbar a:hover::after {
+    width: 100%;
+}
+
+.navbar a:hover {
+    color: var(--maincolor);
+}
+
+.right-icons {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 1.2rem 2.8rem;
+    background: var(--maincolor);
+    color: var(--white);
+    font-size: 1.6rem;
+    font-weight: 500;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(46, 200, 166, 0.3);
+    transform: translateY(0);
+}
+
+.btn:hover {
+    background: var(--secondcolor);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(46, 200, 166, 0.5);
+}
+
+#menu-bars {
+    font-size: 2.5rem;
+    color: var(--darktext);
+    cursor: pointer;
+    display: none;
+}
+
+/* Blog Banner Styles - Enhanced */
+.blog-banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(images/blurbg1.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+    position: relative;
+}
+
+.blog-banner::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to top, var(--white), transparent);
+}
+
+.blog-banner-content {
+    text-align: center;
+    color: var(--white);
+    background-color: rgba(46, 200, 166, 0.85);
+    padding: 3rem 5rem;
+    border-radius: 10px;
+    max-width: 700px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.blog-banner-content h1 {
+    font-size: 4.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.blog-banner-content p {
+    font-size: 1.8rem;
+    line-height: 1.6;
+}
+
+/* Blog Container Styles */
+.blog-container {
+    padding: 5rem 7%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5rem;
+    background-color: var(--white);
+    position: relative;
+}
+
+/* Main Blog Content */
+.blog-main {
+    flex: 1 1 65%;
+    animation: slideUp 0.8s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.blog-image {
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.blog-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 70%, rgba(0, 0, 0, 0.1));
+}
+
+.blog-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.7s ease;
+}
+
+.blog-image:hover img {
+    transform: scale(1.05);
+}
+
+.blog-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.blog-meta span {
+    font-size: 1.5rem;
+    color: var(--textcolor);
+    display: flex;
+    align-items: center;
+}
+
+.blog-meta i {
+    color: var(--maincolor);
+    margin-right: 0.8rem;
+    font-size: 1.8rem;
+}
+
+.blog-content h1 {
+    font-size: 3.8rem;
+    color: var(--darktext);
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.blog-content p {
+    font-size: 1.7rem;
+    line-height: 3rem;
+    color: var(--textcolor);
+    margin-bottom: 2.5rem;
+    text-align: justify;
+}
+
+.blog-content h2 {
+    font-size: 2.8rem;
+    color: var(--darktext);
+    margin: 4rem 0 2rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.blog-content h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    height: 80%;
+    width: 5px;
+    background: var(--maincolor);
+    border-radius: 5px;
+}
+
+.blog-content ul {
+    margin-left: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.blog-content li {
+    font-size: 1.7rem;
+    line-height: 3rem;
+    color: var(--textcolor);
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.blog-content li strong {
+    color: var(--darktext);
+}
+
+.blog-quote {
+    background-color: #f8f9fa;
+    border-left: 5px solid var(--maincolor);
+    padding: 3rem;
+    margin: 4rem 0;
+    font-style: italic;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.blog-quote::before {
+    content: '\201C';
+    font-size: 8rem;
+    color: rgba(46, 200, 166, 0.2);
+    position: absolute;
+    top: -2rem;
+    left: 1rem;
+    font-family: serif;
+}
+
+.blog-quote p {
+    font-size: 1.9rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+}
+
+.blog-quote cite {
+    font-size: 1.6rem;
+    color: var(--maincolor);
+    font-weight: 600;
+    display: block;
+    text-align: right;
+}
+
+/* Comment Section Styles */
+.comment-section {
+    margin-top: 6rem;
+    animation: fadeIn 1s ease 0.3s forwards;
+    opacity: 0;
+}
+
+.comment-section h2 {
+    font-size: 3rem;
+    color: var(--darktext);
+    margin-bottom: 3.5rem;
+    position: relative;
+    padding-bottom: 1.5rem;
+}
+
+.comment-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 120px;
+    height: 4px;
+    background-color: var(--maincolor);
+    border-radius: 5px;
+}
+
+.comment-form {
+    background-color: var(--lightgray);
+    padding: 4rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 2.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+    color: var(--darktext);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    transition: all 0.3s;
+    background-color: var(--white);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--maincolor);
+    box-shadow: 0 0 10px rgba(46, 200, 166, 0.2);
+}
+
+.form-group textarea {
+    height: 180px;
+    resize: vertical;
+}
+
+.submit-btn {
+    background-color: var(--maincolor);
+    color: var(--white);
+    border: none;
+    padding: 1.5rem 4rem;
+    font-size: 1.7rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(46, 200, 166, 0.3);
+}
+
+.submit-btn:hover {
+    background-color: var(--secondcolor);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(46, 200, 166, 0.4);
+}
+
+/* Sidebar Styles */
+.blog-sidebar {
+    flex: 1 1 25%;
+    animation: slideIn 0.8s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.sidebar-widget {
+    background-color: var(--lightgray);
+    padding: 3rem;
+    border-radius: 15px;
+    margin-bottom: 4rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-widget h3 {
+    font-size: 2.4rem;
+    color: var(--maincolor);
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #e0e0e0;
+    position: relative;
+}
+
+.sidebar-widget h3::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 3px;
+    background: var(--maincolor);
+    bottom: -2px;
+    left: 0;
+    border-radius: 5px;
+}
+
+.category-list {
+    list-style: none;
+}
+
+.category-list li {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1.2rem 0;
+    transition: all 0.3s;
+}
+
+.category-list li:hover {
+    padding-left: 0.5rem;
+}
+
+.category-list a {
+    font-size: 1.6rem;
+    color: var(--textcolor);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.category-list a:hover {
+    color: var(--maincolor);
+}
+
+.category-list span {
+    background-color: var(--maincolor);
+    color: var(--white);
+    padding: 0.3rem 1.2rem;
+    border-radius: 20px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.category-list a:hover span {
+    background-color: var(--secondcolor);
+}
+
+.recent-post {
+    display: flex;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.recent-post:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.recent-post-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-right: 2rem;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.recent-post-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.5s;
+}
+
+.recent-post:hover .recent-post-img img {
+    transform: scale(1.1);
+}
+
+.recent-post-info h4 {
+    font-size: 1.6rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+}
+
+.recent-post-info a {
+    color: var(--darktext);
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.recent-post-info a:hover {
+    color: var(--maincolor);
+}
+
+.recent-post-info span {
+    font-size: 1.4rem;
+    color: var(--textcolor);
+    display: flex;
+    align-items: center;
+}
+
+.recent-post-info span:before {
+    content: '\f073';
+    font-family: 'Font Awesome 5 Free';
+    margin-right: 0.8rem;
+    color: var(--maincolor);
+}
+
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+}
+
+.tag-cloud a {
+    display: inline-block;
+    padding: 1rem 1.8rem;
+    background-color: var(--white);
+    color: var(--textcolor);
+    font-size: 1.4rem;
+    border-radius: 50px;
+    transition: 0.3s;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tag-cloud a:hover {
+    background-color: var(--maincolor);
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Styles */
+.main-footer {
+    background-color: #1d293e;
+    color: var(--white);
+    padding: 5rem 0 3rem 0;
+}
+
+.footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 7%;
+    gap: 4rem;
+}
+
+.footer-content {
+    flex: 1 1 200px;
+}
+
+.footer-content h1 {
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.footer-content h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--maincolor);
+}
+
+.footer-content .link {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.footer-content a {
+    color: #aaa;
+    font-size: 1.6rem;
+    transition: 0.3s;
+}
+
+.footer-content a:hover {
+    color: var(--maincolor);
+    padding-left: 0.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    html {
+        font-size: 55%;
+    }
+    
+    .blog-container {
+        padding: 4rem 5%;
+    }
+}
+
+@media (max-width: 991px) {
+    header {
+        padding: 1rem 5%;
+    }
+    
+    .blog-container {
+        padding: 3rem 5%;
+        gap: 3rem;
+    }
+    
+    .blog-sidebar {
+        flex: 1 1 100%;
+        order: 1;
+    }
+    
+    .blog-main {
+        flex: 1 1 100%;
+        order: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 50%;
+    }
+    
+    #menu-bars {
+        display: block;
+    }
+    
+    .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-top: 1px solid #eee;
+        padding: 1rem 7%;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .navbar.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    
+    .blog-banner-content h1 {
+        font-size: 3.5rem;
+    }
+    
+    .blog-content h1 {
+        font-size: 3rem;
+    }
+    
+    .blog-meta {
+        gap: 1.5rem;
+    }
+    
+    .comment-form {
+        padding: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .blog-banner {
+        height: 300px;
+    }
+    
+    .blog-banner-content {
+        padding: 2rem 3rem;
+    }
+    
+    .blog-banner-content h1 {
+        font-size: 3rem;
+    }
+    
+    .blog-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .blog-quote {
+        padding: 2rem;
+    }
+    
+    .sidebar-widget {
+        padding: 2rem;
+    }
+    
+    .comment-form {
+        padding: 2rem;
+    }
+    
+    .submit-btn {
+        width: 100%;
+    }
+}
+
+/* Extra animation effects */
+.blog-image, .sidebar-widget, .comment-form {
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-image::before, 
+.sidebar-widget::before, 
+.comment-form::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.5s;
+    pointer-events: none;
+}
+
+.blog-image:hover::before, 
+.sidebar-widget:hover::before, 
+.comment-form:hover::before {
+    opacity: 1;
+    transform: scale(20);
+}
+
+/* Smooth scroll and scroll animations */
+.reveal {
+    position: relative;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: all 1s ease;
+}
+
+.reveal.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Hover effects for elements */
+.blog-content p:first-of-type::first-letter {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--maincolor);
+    padding-right: 5px;
+    float: left;
+    line-height: 1;
+}
+
+/* Scroll to top button */
+.scroll-top {
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    background: var(--maincolor);
+    color: var(--white);
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-top.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-top:hover {
+    background: var(--secondcolor);
+    transform: translateY(-5px);
+}
+    </style>
+</head>
+<body> 
+
+    <header>
+        
+        <div class="logo"><img src="images/logo3.png" alt=""></div>
+
+        <nav class="navbar">
+            <a href="/index">Home</a>
+            <a href="/aboutus">About</a>
+            <a href="/services">Service</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/blog">Blog</a>
+            <a href="/contactus">Contact</a>
+        </nav>
+
+        <div class="right-icons">
+            <div id="menu-bars" class="fas fa-bars"></div>
+           
+            <div class="btn">
+                <a href="/appointment" style="color: white;">Make Appointment</a></div>
+        </div>
+
+    </header>
+
+    <!-- Blog Banner Section -->
+    <div class="blog-banner">
+        <div class="blog-banner-content">
+            <h1>Our Blog</h1>
+            <p>Stay informed with the latest health tips and medical advancements</p>
+        </div>
+    </div>
+
+    <!-- Blog Content Section -->
+    <div class="blog-container">
+        <!-- Main Blog Content -->
+        <div class="blog-main">
+            <div class="blog-image">
+                <img src="images/about1.png" alt="Blog Featured Image">
+            </div>
+            
+            <div class="blog-meta">
+                <span><i class="fa-regular fa-calendar"></i> March 3, 2025</span>
+                <span><i class="fa-regular fa-user"></i> Dr. Sarah Johnson</span>
+                <span><i class="fa-regular fa-folder"></i> Health Tips</span>
+                <span><i class="fa-regular fa-comments"></i> 24 Comments</span>
+            </div>
+            
+            <div class="blog-content">
+                <h1>The Importance of Preventive Healthcare in Modern Life</h1>
+                
+                <p>In today's fast-paced world, preventive healthcare has become more important than ever. With increasing stress levels, environmental pollutants, and sedentary lifestyles, taking proactive steps to maintain good health is essential for longevity and quality of life.</p>
+                
+                <p>Preventive healthcare encompasses a wide range of practices designed to prevent illness, detect potential health issues early, and promote overall wellness. From regular check-ups and screenings to lifestyle modifications, these measures can significantly reduce the risk of developing serious health conditions.</p>
+                
+                <h2>Key Components of Preventive Healthcare</h2>
+                
+                <ul>
+                    <li><strong>Regular Health Screenings:</strong> Routine check-ups and screenings can detect health issues before they become serious problems. These may include blood pressure checks, cholesterol tests, cancer screenings, and more.</li>
+                    <li><strong>Vaccinations:</strong> Immunizations protect against various infectious diseases and are an essential part of preventive healthcare for people of all ages.</li>
+                    <li><strong>Healthy Diet:</strong> A balanced diet rich in fruits, vegetables, whole grains, and lean proteins provides the nutrients your body needs to function optimally.</li>
+                    <li><strong>Regular Exercise:</strong> Physical activity helps maintain a healthy weight, strengthens the cardiovascular system, and improves mental health.</li>
+                    <li><strong>Stress Management:</strong> Chronic stress can contribute to numerous health problems. Techniques such as meditation, yoga, and deep breathing can help manage stress effectively.</li>
+                </ul>
+                
+                <div class="blog-quote">
+                    <p>"An ounce of prevention is worth a pound of cure. The best time to take care of your health is before you get sick."</p>
+                    <cite>- Dr. Michael Anderson, Chief of Preventive Medicine</cite>
+                </div>
+                
+                <h2>The Economic Benefits of Preventive Care</h2>
+                
+                <p>Beyond the obvious health benefits, preventive healthcare also makes economic sense. Treating chronic diseases and serious health conditions is often much more expensive than preventing them in the first place. According to studies, every dollar spent on preventive care can save several dollars in treatment costs down the line.</p>
+                
+                <p>For healthcare systems and insurance providers, promoting preventive care can lead to significant cost savings. For individuals, it means fewer medical bills, less time off work due to illness, and a better quality of life.</p>
+                
+                <h2>Integrating Preventive Care into Your Life</h2>
+                
+                <p>Making preventive healthcare a priority doesn't have to be overwhelming. Start with small, manageable changes to your lifestyle and gradually build upon them. Schedule regular check-ups with your healthcare provider, stay up-to-date on recommended screenings and vaccinations, and make healthy choices in your daily life.</p>
+                
+                <p>Remember that preventive healthcare is not just about avoiding illness—it's about optimizing your health and well-being. By taking proactive steps today, you're investing in a healthier, happier future for yourself and your loved ones.</p>
+            </div>
+            
+            <!-- Comment Section -->
+            <div class="comment-section">
+                <h2>Leave a Comment</h2>
+                
+                <form class="comment-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Your Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Your Email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" placeholder="Your Comment" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Submit Comment</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="blog-sidebar">
+            <!-- Categories Widget -->
+            <div class="sidebar-widget">
+                <h3>Our Treatments</h3>
+                <ul class="category-list">
+                    <li><a href="#">Dental Care <span>18</span></a></li>
+                    <li><a href="#">Orthopedics <span>12</span></a></li>
+                    <li><a href="#">Cardiology <span>15</span></a></li>
+                    <li><a href="#">Neurology <span>9</span></a></li>
+                    <li><a href="#">Pediatrics <span>14</span></a></li>
+                    <li><a href="#">Ophthalmology <span>7</span></a></li>
+                    <li><a href="#">Dermatology <span>10</span></a></li>
+                    <li><a href="#">Gynecology <span>11</span></a></li>
+                    <li><a href="#">Physiotherapy <span>8</span></a></li>
+                </ul>
+            </div>
+            
+            <!-- Recent Posts Widget -->
+            <div class="sidebar-widget">
+                <h3>Recent Posts</h3>
+                
+                <div class="recent-post">
+                    <div class="recent-post-img">
+                        <img src="images/team1.jpg" alt="Recent Post">
+                    </div>
+                    <div class="recent-post-info">
+                        <h4><a href="#">Understanding Cardiovascular Health</a></h4>
+                        <span>February 28, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="recent-post">
+                    <div class="recent-post-img">
+                        <img src="images/team2.jpg" alt="Recent Post">
+                    </div>
+                    <div class="recent-post-info">
+                        <h4><a href="#">The Benefits of Regular Exercise</a></h4>
+                        <span>February 25, 2025</span>
+                    </div>
+                </div>
+                
+                <div class="recent-post">
+                    <div class="recent-post-img">
+                        <img src="images/team3.jpg" alt="Recent Post">
+                    </div>
+                    <div class="recent-post-info">
+                        <h4><a href="#">Nutrition Tips for a Healthy Life</a></h4>
+                        <span>February 20, 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tags Widget -->
+            <div class="sidebar-widget">
+                <h3>Tags</h3>
+                <div class="tag-cloud">
+                    <a href="#">Health</a>
+                    <a href="#">Medicine</a>
+                    <a href="#">Doctors</a>
+                    <a href="#">Wellness</a>
+                    <a href="#">Nutrition</a>
+                    <a href="#">Fitness</a>
+                    <a href="#">Mental Health</a>
+                    <a href="#">Prevention</a>
+                    <a href="#">Lifestyle</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="main-footer">
+        <div class="footer-inner">
+            <div class="footer-content">
+                <h1>Dummy Links</h1>
+                <div class="link">
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                </div>
+            </div>
+
+            <div class="footer-content">
+                <h1>Dummy Links</h1>
+                <div class="link">
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                </div>
+            </div>
+
+            <div class="footer-content">
+                <h1>Dummy Links</h1>
+                <div class="link">
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                </div>
+            </div>
+
+            <div class="footer-content">
+                <h1>Dummy Links</h1>
+                <div class="link">
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                </div>
+            </div>
+
+            <div class="footer-content">
+                <h1>Dummy Links</h1>
+                <div class="link">
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                    <a href="">Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menu toggle functionality
+        let menu = document.querySelector('#menu-bars');
+        let navbar = document.querySelector('.navbar');
+
+        menu.onclick = () => {
+            menu.classList.toggle('fa-times');
+            navbar.classList.toggle('active');
+        }
+
+        // Form submission handling
+        const commentForm = document.querySelector('.comment-form');
+        commentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would typically send this data to a server
+            // For now, we'll just show an alert
+            alert(`Thank you ${name} for your comment! We'll review it shortly.`);
+            
+            // Clear the form
+            commentForm.reset();
+        });
+    </script>
+
+</body>
+</html>
+
