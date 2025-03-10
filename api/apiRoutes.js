@@ -21,6 +21,7 @@ router.post('/login', (req, res, next) => {
   })
 })
 
+
 // Register route
 router.post('/register', (req, res, next) => {
   const { username, password } = req.body // Destructure username and password

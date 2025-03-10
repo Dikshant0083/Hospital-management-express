@@ -1,11 +1,23 @@
 const express = require('express') // Express for routing and middleware management
 const path = require('path') // Path to handle file paths
 const app = express()
-//middleware
+//middleware                      
 const cors=require('cors');
 const bodyParser = require('body-parser');
 const helmet=require('helmet');
 const morgan = require('morgan'); // Logging middleware
+const rateLimit = require('express-rate-limit'); // Import the package
+
+// Define a rate limit: Allow 100 requests per 15 minutes per IP
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again later.',
+    headers: true, // Send rate limit info in headers
+});
+
+// Apply the rate limiter to all API routes
+app.use('/api', limiter);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,7 +75,10 @@ app.use(
 );
 
 
-const PORT = 8080
+// const PORT = 8080
+const PORT = process.env.PORT || 8080;
+
+
 // Import middlewares
 const logger = require('./middlewares/logger') // Import logger middleware
 const errorHandler = require('./middlewares/errorHandler') // Import error handler middleware
@@ -74,7 +89,7 @@ app.use(express.urlencoded({ extended: true })) // To parse URL-encoded data
 app.use(logger) // Log each request
 // Serve static files (HTML, CSS, JS) from the /public directory
 
-// app.use(express.static(path.join(__dirname, 'hospital website')))
+//  app.use(express.static(path.join(__dirname, 'hospital website')))
 //
 app.use(express.static(path.join(__dirname, 'public')))
 
