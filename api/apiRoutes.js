@@ -2,10 +2,15 @@ const express = require('express'); // Express for routing
 const path = require('path'); // Path to handle file paths
 const fs = require('fs'); // FS module for reading and writing files
 const router = express.Router(); // Create an instance of Express Router
+const bcrypt = require('bcrypt'); // Added for password hashing
 
 // Login route
 router.post('/login', (req, res, next) => {
   const { username, password } = req.body; // Destructure username and password from the request body
+  
+  if (!username || !password) {
+    return res.status(400).send('Username and password are required');
+  }
   
   // Ensure directory exists
   const userFilePath = path.join(__dirname, '../models/users.json');
@@ -31,14 +36,39 @@ router.post('/login', (req, res, next) => {
       return next(parseError);
     }
     
-    const user = users.find(u => u.username === username && u.password === password); // Find matching user
+    // Changed to async/await pattern with bcrypt compare
+    const user = users.find(u => u.username === username);
     
     if (user) {
-      // If user exists, redirect to the dashboard
-      return res.redirect('/api/index'); // Redirect to dashboard
+      try {
+        // Handle both hashed and unhashed passwords (for backward compatibility)
+        if (user.password.startsWith('$2')) {
+          // Password is hashed with bcrypt
+          bcrypt.compare(password, user.password, (compareErr, isMatch) => {
+            if (compareErr) return next(compareErr);
+            
+            if (isMatch) {
+              // If password matches, redirect to the dashboard
+              return res.redirect('/index');
+            } else {
+              // If password doesn't match, return error
+              return res.status(401).send('Invalid credentials');
+            }
+          });
+        } else {
+          // Plain text password (legacy support)
+          if (user.password === password) {
+            return res.redirect('/index');
+          } else {
+            return res.status(401).send('Invalid credentials');
+          }
+        }
+      } catch (error) {
+        return next(error);
+      }
     } else {
       // If user doesn't exist, redirect to the register page
-      return res.redirect('/api/register'); // Redirect to register
+      return res.redirect('/register');
     }
   });
 });
@@ -50,8 +80,6 @@ router.post('/register', (req, res, next) => {
   if (!username || !password) {
     return res.status(400).send('Username and password are required');
   }
-  
-  const newUser = { username, password }; // Create a new user object
   
   // Ensure directory exists
   const userFilePath = path.join(__dirname, '../models/users.json');
@@ -78,12 +106,23 @@ router.post('/register', (req, res, next) => {
     return res.status(409).send('Username already exists');
   }
   
-  users.push(newUser); // Add the new user to the users array
-  
-  // Write the updated users array back to the JSON file
-  fs.writeFile(userFilePath, JSON.stringify(users, null, 2), (err) => {
-    if (err) return next(err); // Pass any error to the error handling middleware
-    res.redirect('/'); // Redirect to login page after successful registration
+  // Hash password before storing
+  bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
+    if (hashErr) return next(hashErr);
+    
+    const newUser = { 
+      username, 
+      password: hashedPassword,
+      createdAt: new Date().toISOString()
+    }; // Create a new user object with hashed password
+    
+    users.push(newUser); // Add the new user to the users array
+    
+    // Write the updated users array back to the JSON file
+    fs.writeFile(userFilePath, JSON.stringify(users, null, 2), (writeErr) => {
+      if (writeErr) return next(writeErr); // Pass any error to the error handling middleware
+      res.redirect('/login'); // Redirect to login page after successful registration
+    });
   });
 });
 
