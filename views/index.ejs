@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital management website</title>
+
+    <!-- <script src="https://kit.fontawesome.com/c1df782baf.js" crossorigin="anonymous"></script> -->
+    <script src="https://kit.fontawesome.com/a45dffb59c.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/YOUR_KIT_ID.js" crossorigin="anonymous"></script> -->
+
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+<body> 
+    <header>
+        <div class="logo"><img src="/images/logo3.png" alt=""></div>
+
+        <nav class="navbar">
+            <a href="/index">Home</a>
+            <a href="/aboutus">About</a>
+            <a href="/services">Service</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/blog">Blog</a>
+            <a href="/contactus">Contact</a>
+        </nav>
+
+        <div class="right-icons">
+            <div id="menu-bars" class="fas fa-bars"></div>
+            <div class="btn">
+                <a href="/appointment" style="color: white;">Make Appointment</a>
+            </div>
+        </div>
+        <div class="right-icons">
+            <div class="btn">
+                <a href="/login" style="color: white;">logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-home">
+        <div class="home">
+            <div class="home-left-content">
+                <span>welcome to Doctery-hospital </span>
+                <h2>We take care our<br> Patients Healths</h2>
+                <p class="lorem">
+                    We are a leading multi-specialty hospital committed to providing compassionate, high-quality healthcare to patients of all ages. With a team of experienced doctors, state-of-the-art facilities, and a patient-centric approach, we aim to deliver the best medical care and treatment.
+                </p>
+            
+                <div class="home-btn">
+                    <a href="/aboutus">Read More</a>
+                    <a class="homebtnsec" href="/appointment">Appointment</a>
+                </div>
+            </div>
+
+            <div class="home-right-content">
+                <img src="/images/hero2.png" alt="">
+            </div>
+        </div>
+    </div>
+
+    <div class="technology">
+        <div class="main-technology">
+            <div class="inner-technology">
+                <span></span>
+                <i class="fi fi-tr-hands-heart"></i>
+                <h2>Quality & Safety</h2>
+                <p>Our Delmont hospital utilizes state of the art technology and employs a team of true experts.</p>
+            </div>
+
+            <div class="inner-technology">
+                <span></span>
+                <i class="fi fi-rr-doctor"></i>
+                <h2>Medicine & Facilities</h2>
+                <p>Access a wide range of medicines and advanced medical facilities for comprehensive patient care.</p>
+            </div>
+
+            <div class="inner-technology">
+                <span></span>
+                <i class="fi fi-tr-user-md"></i>
+                <h2>Our Doctors</h2>
+                <p>Our Doctors can manage patient records, prescribe medicines, and oversee treatment plans efficiently.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-about">
+        <div class="about-heading">About Us</div>
+
+        <div class="inner-main-about">
+            <div class="about-inner-content-left">
+                <img src="/images/about1.png" alt="">
+            </div>
+
+            <div class="about-inner-content">
+                <div class="about-right-content">
+                    <h2>We're setting Standards in Research <br> what's more, Clinical Care.</h2>
+                    <p>We provide the most full medical services, so every person could have the pportunity 
+                     o receive qualitative medical help.</p>
+                    <p class="aboutsec-content">
+                        Our Clinic has grown to provide a world class facility for the treatment of tooth loss, dental cosmetics and bore advanced restorative dentistry. We are among
+                         the most qualified implant providers in the AUS with over 30 years of uality training and experience.
+                    </p>
+                    <button class="aboutbtn">Read More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-doctors">
+        <div class="doctors-heading">
+            <h2>Our Doctors</h2>
+        </div>
+
+        <div class="main-inner-doctor">
+            <% const doctors = [
+                { name: "Dr.Sarah Johnson", image: "/images/team1.jpg" },
+                { name: "Dr. Michael Chen", image: "/images/team2.jpg" },
+                { name: "Dr.Alex Rivera", image: "/images/team3.jpg" },
+                { name: "Dr.Priya Sharma", image: "/images/team4.jpg" },
+                { name: "Dr.Joe", image: "/images/team5.jpg" },
+                { name: "Dr.Lara", image: "/images/team6.jpg" }
+            ]; %>
+            
+            <% doctors.forEach(doctor => { %>
+                <div class="doc-poster">
+                    <div class="doc-icons">
+                        <i class="fa-solid fa-share"></i>
+                        <i class="fa-solid fa-eye"></i>
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <img src="<%= doctor.image %>" alt="<%= doctor.name %>">
+
+                    <div class="doc-details">
+                        <h2><%= doctor.name %></h2>
+                        <i class="fa-brands fa-linkedin"></i>
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <div class="our-service">
+        <div class="service-heading">
+            <h2>Our Services</h2>
+        </div>
+
+        <div class="main-services">
+            <% const services = [
+                { 
+                    icon: "fa-solid fa-truck-medical", 
+                    title: "Ambulance Services", 
+                    description: "24/7 ambulance service for quick and safe patient transportation." 
+                },
+                { 
+                    icon: "fa-regular fa-hospital", 
+                    title: "Hospital", 
+                    description: "Comprehensive hospital care with advanced medical infrastructure." 
+                },
+                { 
+                    icon: "fa-regular fa-heart", 
+                    title: "Health Check", 
+                    description: "Regular health checkups for early detection and prevention of diseases." 
+                },
+                { 
+                    icon: "fa-solid fa-notes-medical", 
+                    title: "Medicine", 
+                    description: "On-site pharmacy with a wide range of quality medicines" 
+                },
+                { 
+                    icon: "fa-solid fa-list-check", 
+                    title: "Appointment", 
+                    description: "Easy online appointment booking with preferred doctors." 
+                },
+                { 
+                    icon: "fa-solid fa-user-doctor", 
+                    title: "Patient-Check", 
+                    description: "Thorough patient monitoring and personalized treatment plans." 
+                }
+            ]; %>
+            
+            <% services.forEach(service => { %>
+                <div class="inner-services">
+                    <div class="service-icon">
+                        <i class="<%= service.icon %>"></i>
+                    </div>
+                    <h3><%= service.title %></h3>
+                    <p><%= service.description %></p>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <div class="main-review">
+        <section>  
+            <div class="review-heading">
+                <h1>Our Customers Review</h1>
+            </div>
+
+            <div class="main-inner-review">
+                <div class="review-inner-content">
+                    <% const reviews = [
+                        { 
+                            name: "Lara John", 
+                            image: "/images/pic1.png", 
+                            stars: 4,
+                            text: "Optio quod assumenda similique provident aliquid corrupti minima maxime tempore! Quas illo porro fuga consectetur repellat" 
+                        },
+                        { 
+                            name: "Jimmy", 
+                            image: "/images/pic2.png", 
+                            stars: 4,
+                            text: "Optio quod assumenda similique provident aliquid corrupti minima maxime tempore! Quas illo porro fuga consectetur repellat" 
+                        },
+                        { 
+                            name: "Elly", 
+                            image: "/images/pic3.png", 
+                            stars: 4,
+                            text: "Optio quod assumenda similique provident aliquid corrupti minima maxime tempore! Quas illo porro fuga consectetur repellat" 
+                        }
+                    ]; %>
+                    
+                    <% reviews.forEach(review => { %>
+                        <div class="review-box">
+                            <img src="<%= review.image %>" alt="<%= review.name %>">
+                            <h2><%= review.name %></h2>
+                            <div class="review-stars">
+                                <% for(let i = 0; i < 5; i++) { %>
+                                    <% if(i < review.stars) { %>
+                                        <i class="fa-solid fa-star"></i>
+                                    <% } else { %>
+                                        <i class="fa-regular fa-star"></i>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                            <div class="review-text">
+                                <p><%= review.text %></p>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <img src="/images/logo.png" alt="Hospital Logo" class="footer-logo">
+                <p>Providing world-class healthcare services with advanced technologies and compassionate care. Our hospital management system streamlines operations to focus on what matters most - patient care.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-menu">
+                    <% const footerLinks = ["Home", "Services", "Doctors", "Patients", "Appointments", "Records"]; %>
+                    <% const footerPaths = ["/index", "/services", "/doctors", "/patients", "/appointment", "#records"]; %>
+                    
+                    <% footerLinks.forEach((link, index) => { %>
+                        <li><a href="<%= footerPaths[index] %>"><%= link %></a></li>
+                    <% }); %>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h3 class="footer-title">Contact Us</h3>
+                <p><i class="fi fi-rr-map-marker"></i>  Chandigarh IT Park, Phase 1 </p>
+                <p><i class="fi fi-rr-phone-call"></i> +1 (555) 123-4567</p>
+                <p><i class="fi fi-rr-envelope"></i> contact@hospital.com</p>
+            </div>
+
+            <div class="footer-newsletter">
+                <h3 class="footer-title">Newsletter</h3>
+                <p>Subscribe to our newsletter to receive updates on health tips, hospital news, and special health programs.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <%= new Date().getFullYear() %> Hospital Management System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <script src="/script.js"></script>
+
+</body>
+</html>

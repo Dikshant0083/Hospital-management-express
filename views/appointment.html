@@ -209,6 +209,34 @@
             font-size: 1.8rem;
         }
 
+        .email-search {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .email-search input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .email-search button {
+            background-color: #2ec8a6;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .email-search button:hover {
+            background-color: rgb(239, 159, 10);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -248,6 +276,23 @@
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
+        }
+
+        /* Loading animation */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2ec8a6;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Responsive styles */
@@ -298,7 +343,6 @@
         
         <div class="right-icons">
             <div id="menu-bars" class="fas fa-bars"></div>
-            <!-- <div class="btn" id="appointment-btn">Make Appointment</div> -->
         </div>
     </header>
 
@@ -315,6 +359,8 @@
         <div class="alert alert-error" id="error-alert">
             Please fill in all required fields.
         </div>
+
+        <div class="loader" id="form-loader"></div>
 
         <div class="tab-content active" id="appointment-form">
             <!-- Appointment Form -->
@@ -415,6 +461,11 @@
         <div class="tab-content" id="appointment-list">
             <div class="appointment-list">
                 <h2>My Appointments</h2>
+                <div class="email-search">
+                    <input type="email" id="search-email" placeholder="Enter your email to find your appointments">
+                    <button id="search-btn">Search</button>
+                </div>
+                <div class="loader" id="list-loader"></div>
                 <table>
                     <thead>
                         <tr>
@@ -434,179 +485,221 @@
     </div>
 
     <script>
-       document.addEventListener("DOMContentLoaded", function () {
-    // DOM Elements
-    const menuBars = document.getElementById('menu-bars');
-    const navbar = document.querySelector('.navbar');
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const appointmentForm = document.getElementById('patient-form');
-    const appointmentBtn = document.getElementById('appointment-btn');
-    const successAlert = document.getElementById('success-alert');
-    const errorAlert = document.getElementById('error-alert');
-    const appointmentsTableBody = document.getElementById('appointments-table-body');
+        document.addEventListener("DOMContentLoaded", function () {
+            // Configuration
+            const API_URL = 'http://localhost:5000/api';
+            
+            // DOM Elements
+            const menuBars = document.getElementById('menu-bars');
+            const navbar = document.querySelector('.navbar');
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const appointmentForm = document.getElementById('patient-form');
+            const successAlert = document.getElementById('success-alert');
+            const errorAlert = document.getElementById('error-alert');
+            const appointmentsTableBody = document.getElementById('appointments-table-body');
+            const searchEmailInput = document.getElementById('search-email');
+            const searchBtn = document.getElementById('search-btn');
+            const formLoader = document.getElementById('form-loader');
+            const listLoader = document.getElementById('list-loader');
 
-    // Ensure elements exist before adding event listeners
-    if (menuBars && navbar) {
-        menuBars.addEventListener('click', () => {
-            navbar.classList.toggle('active');
-        });
-    }
+            // Ensure elements exist before adding event listeners
+            
+            if (menuBars && navbar) {
+                menuBars.addEventListener('click', () => {
+                    navbar.classList.toggle('active');
+                });
+            }
 
-    if (tabs.length > 0 && tabContents.length > 0) {
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs and contents
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
+            if (tabs.length > 0 && tabContents.length > 0) {
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        // Remove active class from all tabs and contents
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tabContents.forEach(c => c.classList.remove('active'));
 
-                // Add active class to clicked tab and corresponding content
-                tab.classList.add('active');
-                const tabId = tab.getAttribute('data-tab');
-                document.getElementById(tabId)?.classList.add('active');
+                        // Add active class to clicked tab and corresponding content
+                        tab.classList.add('active');
+                        const tabId = tab.getAttribute('data-tab');
+                        document.getElementById(tabId)?.classList.add('active');
+                    });
+                });
+            }
 
-                // If appointments tab is clicked, load appointments
-                if (tabId === 'appointment-list') {
-                    loadAppointments();
+            // Search appointments by email
+            if (searchBtn && searchEmailInput) {
+                searchBtn.addEventListener('click', () => {
+                    const email = searchEmailInput.value.trim();
+                    if (email) {
+                        fetchAppointmentsByEmail(email);
+                    } else {
+                        showError('Please enter your email address');
+                    }
+                });
+            }
+
+            // Generate a unique ID for appointments
+            function generateAppointmentId() {
+                return 'APP' + Date.now().toString().slice(-8);
+            }
+
+            // Form submission
+            if (appointmentForm) {
+                appointmentForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    // Basic validation - check if required fields are filled
+                    const requiredFields = appointmentForm.querySelectorAll('[required]');
+                    let isValid = true;
+
+                    requiredFields.forEach(field => {
+                        if (!field.value.trim()) {
+                            isValid = false;
+                            field.style.borderColor = '#dc3545';
+                        } else {
+                            field.style.borderColor = '#ddd';
+                        }
+                    });
+
+                    if (!isValid) {
+                        showError('Please fill in all required fields');
+                        return;
+                    }
+
+                    // Show loader
+                    formLoader.style.display = 'block';
+
+                    try {
+                        // Get form data
+                        const appointmentData = {
+                            id: generateAppointmentId(),
+                            firstName: document.getElementById('firstName')?.value || '',
+                            lastName: document.getElementById('lastName')?.value || '',
+                            address1: document.getElementById('address1')?.value || '',
+                            address2: document.getElementById('address2')?.value || '',
+                            doctor: document.getElementById('doctor')?.value || '',
+                            department: document.getElementById('department')?.value || '',
+                            email: document.getElementById('email')?.value || '',
+                            phone: document.getElementById('phone')?.value || '',
+                            dob: document.getElementById('dob')?.value || '',
+                            appointmentDate: document.getElementById('appointmentDate')?.value || '',
+                            note: document.getElementById('note')?.value || '',
+                            isPatient: document.querySelector('input[name="isPatient"]:checked')?.value || '',
+                            status: 'Pending',
+                            createdAt: new Date().toISOString()
+                        };
+
+                        // Save to MongoDB via API
+                        const response = await fetch(`${API_URL}/appointments`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(appointmentData)
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            // Show success message
+                            showSuccess('Appointment successfully booked! An email confirmation has been sent.');
+                            // Reset form
+                            appointmentForm.reset();
+                        } else {
+                            showError('Failed to book appointment: ' + result.message);
+                        }
+                    } catch (error) {
+                        console.error('Error booking appointment:', error);
+                        showError('An error occurred while booking your appointment. Please try again.');
+                    } finally {
+                        // Hide loader
+                        formLoader.style.display = 'none';
+                    }
+                });
+            }
+
+            // Fetch appointments by email
+            async function fetchAppointmentsByEmail(email) {
+                try {
+                    // Show loader
+                    listLoader.style.display = 'block';
+                    
+                    const response = await fetch(`${API_URL}/appointments/${email}`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        displayAppointments(result.appointments);
+                    } else {
+                        showError('Failed to fetch appointments: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Error fetching appointments:', error);
+                    showError('An error occurred while fetching your appointments.');
+                } finally {
+                    // Hide loader
+                    listLoader.style.display = 'none';
                 }
-            });
-        });
-    }
+            }
 
-    if (appointmentBtn) {
-        appointmentBtn.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
+            // Display appointments in the table
+            function displayAppointments(appointments) {
+                if (appointmentsTableBody) {
+                    appointmentsTableBody.innerHTML = '';
 
-            document.querySelector('[data-tab="appointment-form"]')?.classList.add('active');
-            document.getElementById('appointment-form')?.classList.add('active');
-        });
-    }
-
-    // Generate a unique ID for appointments
-    function generateAppointmentId() {
-        return 'APP' + Date.now().toString().slice(-8);
-    }
-
-    // Form submission
-    if (appointmentForm) {
-        appointmentForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // Basic validation - check if required fields are filled
-            const requiredFields = appointmentForm.querySelectorAll('[required]');
-            let isValid = true;
-
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.style.borderColor = '#dc3545';
-                } else {
-                    field.style.borderColor = '#ddd';
+                    if (appointments.length === 0) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td colspan="5" style="text-align: center;">No appointments found</td>`;
+                        appointmentsTableBody.appendChild(row);
+                    } else {
+                        appointments.forEach(appointment => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${appointment.id}</td>
+                                <td>${formatDate(appointment.appointmentDate)}</td>
+                                <td>Dr. ${appointment.doctor}</td>
+                                <td>${appointment.department}</td>
+                                <td>${appointment.status}</td>
+                            `;
+                            appointmentsTableBody.appendChild(row);
+                        });
+                    }
                 }
-            });
+            }
 
-            if (!isValid) {
+            // Format date to a readable format
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString(undefined, options);
+            }
+
+            // Show success message
+            function showSuccess(message) {
+                if (successAlert) {
+                    successAlert.textContent = message;
+                    successAlert.style.display = 'block';
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 5000);
+                }
+            }
+
+            // Show error message
+            function showError(message) {
                 if (errorAlert) {
+                    errorAlert.textContent = message;
                     errorAlert.style.display = 'block';
                     setTimeout(() => {
                         errorAlert.style.display = 'none';
                     }, 5000);
                 }
-                return;
             }
 
-            // Get form data
-            const appointmentData = {
-                id: generateAppointmentId(),
-                firstName: document.getElementById('firstName')?.value || '',
-                lastName: document.getElementById('lastName')?.value || '',
-                address1: document.getElementById('address1')?.value || '',
-                address2: document.getElementById('address2')?.value || '',
-                doctor: document.getElementById('doctor')?.value || '',
-                department: document.getElementById('department')?.value || '',
-                email: document.getElementById('email')?.value || '',
-                phone: document.getElementById('phone')?.value || '',
-                dob: document.getElementById('dob')?.value || '',
-                appointmentDate: document.getElementById('appointmentDate')?.value || '',
-                note: document.getElementById('note')?.value || '',
-                isPatient: document.querySelector('input[name="isPatient"]:checked')?.value || '',
-                status: 'Pending',
-                createdAt: new Date().toISOString()
-            };
-
-            // Save to localStorage
-            saveAppointment(appointmentData);
-
-            // Show success message
-            if (successAlert) {
-                successAlert.style.display = 'block';
-                setTimeout(() => {
-                    successAlert.style.display = 'none';
-                }, 5000);
+            // Set today's date as the minimum for the appointment date
+            const appointmentDateInput = document.getElementById('appointmentDate');
+            if (appointmentDateInput) {
+                appointmentDateInput.min = new Date().toISOString().split('T')[0];
             }
-
-            // Simulate email notification
-            sendEmailNotification(appointmentData);
-
-            // Reset form
-            appointmentForm.reset();
         });
-    }
-
-    // Save appointment to localStorage
-    function saveAppointment(appointmentData) {
-        let appointments = JSON.parse(localStorage.getItem('hospitalAppointments')) || [];
-        appointments.push(appointmentData);
-        localStorage.setItem('hospitalAppointments', JSON.stringify(appointments));
-    }
-
-    // Load appointments from localStorage
-    function loadAppointments() {
-        const appointments = JSON.parse(localStorage.getItem('hospitalAppointments')) || [];
-        if (appointmentsTableBody) {
-            appointmentsTableBody.innerHTML = '';
-
-            if (appointments.length === 0) {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td colspan="5" style="text-align: center;">No appointments found</td>`;
-                appointmentsTableBody.appendChild(row);
-            } else {
-                appointments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-                appointments.forEach(appointment => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${appointment.id}</td>
-                        <td>${formatDate(appointment.appointmentDate)}</td>
-                        <td>Dr. ${appointment.doctor}</td>
-                        <td>${appointment.department}</td>
-                        <td>${appointment.status}</td>
-                    `;
-                    appointmentsTableBody.appendChild(row);
-                });
-            }
-        }
-    }
-
-    // Format date to a readable format
-    function formatDate(dateString) {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    }
-
-    // Simulate sending email notification
-    function sendEmailNotification(appointmentData) {
-        console.log('Sending email notification to:', appointmentData.email);
-        console.log('Appointment details:', appointmentData);
-    }
-
-    // Set today's date as the minimum for the appointment date
-    const appointmentDateInput = document.getElementById('appointmentDate');
-    if (appointmentDateInput) {
-        appointmentDateInput.min = new Date().toISOString().split('T')[0];
-    }
-});
-</script>
+    </script>
 </body>
 </html>

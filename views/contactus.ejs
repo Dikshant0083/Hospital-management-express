@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Hospital Management</title>
-    <script src="https://kit.fontawesome.com/c1df782baf.js"></script>
+    <!-- <script src="https://kit.fontawesome.com/c1df782baf.js"></script> -->
+    <script src="https://kit.fontawesome.com/a45dffb59c.js" crossorigin="anonymous"></script>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel="stylesheet" href="style.css">
@@ -212,6 +213,26 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
+        /* Alert messages styling */
+        .alert {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 5px;
+            font-size: 1.6rem;
+        }
+        
+        .alert-success {
+            background-color: rgba(46, 200, 166, 0.2);
+            color: var(--maincolor);
+            border: 1px solid var(--maincolor);
+        }
+        
+        .alert-error {
+            background-color: rgba(255, 76, 76, 0.2);
+            color: #ff4c4c;
+            border: 1px solid #ff4c4c;
+        }
+        
         @media (max-width: 768px) {
             .contact-content {
                 flex-direction: column;
@@ -241,7 +262,7 @@
             <a href="/services">Service</a>
             <a href="/gallery">Gallery</a>
             <a href="/blog">Blog</a>
-            <a href="/contact">Contact</a>
+            <a href="/contactus">Contact</a>
         </nav>
         <div class="right-icons">
             <div id="menu-bars" class="fas fa-bars"></div>
@@ -268,13 +289,13 @@
                 
                 <div class="contact-detail">
                     <h3>Our Location</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> 123 Healthcare Avenue, Medical District, City, Country - 12345</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Doctery-Hospital, Chandigarh, India - 12345</p>
                 </div>
                 
                 <div class="contact-detail">
                     <h3>Contact Information</h3>
                     <p><i class="fas fa-phone-alt"></i> <a href="tel:+1234567890">+123 456 7890</a></p>
-                    <p><i class="fas fa-envelope"></i> <a href="mailto:info@hospitalname.com">info@hospitalname.com</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:docteryhospital@gmail.com">docteryhospital@gmail.com</a></p>
                 </div>
                 
                 <div class="contact-detail">
@@ -305,37 +326,50 @@
             
             <div class="contact-form">
                 <h2>Send Us a Message</h2>
-                <form action="#" method="POST">
+                
+                <% if(typeof success !== 'undefined' && success) { %>
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> <%= success %>
+                </div>
+                <% } %>
+                
+                <% if(typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i> <%= error %>
+                </div>
+                <% } %>
+                
+                <form action="/contactus" method="POST">
                     <div class="form-group">
                         <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" required value="<%= typeof name !== 'undefined' ? name : '' %>">
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" required value="<%= typeof email !== 'undefined' ? email : '' %>">
                     </div>
                     
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" required>
+                        <input type="tel" id="phone" name="phone" required value="<%= typeof phone !== 'undefined' ? phone : '' %>">
                     </div>
                     
                     <div class="form-group">
                         <label for="subject">Subject</label>
                         <select id="subject" name="subject" required>
                             <option value="">-- Select a subject --</option>
-                            <option value="general">General Inquiry</option>
-                            <option value="appointment">Appointment Related</option>
-                            <option value="feedback">Feedback/Suggestions</option>
-                            <option value="billing">Billing Questions</option>
-                            <option value="emergency">Emergency Information</option>
+                            <option value="general" <%= typeof subject !== 'undefined' && subject === 'general' ? 'selected' : '' %>>General Inquiry</option>
+                            <option value="appointment" <%= typeof subject !== 'undefined' && subject === 'appointment' ? 'selected' : '' %>>Appointment Related</option>
+                            <option value="feedback" <%= typeof subject !== 'undefined' && subject === 'feedback' ? 'selected' : '' %>>Feedback/Suggestions</option>
+                            <option value="billing" <%= typeof subject !== 'undefined' && subject === 'billing' ? 'selected' : '' %>>Billing Questions</option>
+                            <option value="emergency" <%= typeof subject !== 'undefined' && subject === 'emergency' ? 'selected' : '' %>>Emergency Information</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
                         <label for="message">Your Message</label>
-                        <textarea id="message" name="message" required></textarea>
+                        <textarea id="message" name="message" required><%= typeof message !== 'undefined' ? message : '' %></textarea>
                     </div>
                     
                     <button type="submit" class="form-button">Send Message</button>
@@ -345,7 +379,14 @@
         
         <div class="map-container">
             <h2>Find Us</h2>
-            <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30594994064!2d-74.25986548248684!3d40.69714941932609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1645745534264!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+            <!-- <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30594994064!2d-74.25986548248684!3d40.69714941932609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1645745534264!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe> -->
+            <iframe class="map-frame" 
+            src="https://www.google.com/maps?q=Rajiv+Gandhi+Chandigarh+Technology+Park,+Phase+1,+Chandigarh&hl=en&z=14&output=embed" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        
         </div>
     </main>
     
@@ -362,6 +403,22 @@
             menu.classList.remove('fa-times');
             navbar.classList.remove('active');
         }
+        
+        // Auto-hide alert messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+            if (alerts.length > 0) {
+                setTimeout(function() {
+                    alerts.forEach(function(alert) {
+                        alert.style.opacity = '0';
+                        alert.style.transition = 'opacity 0.5s ease';
+                        setTimeout(function() {
+                            alert.style.display = 'none';
+                        }, 500);
+                    });
+                }, 5000);
+            }
+        });
     </script>
 </body>
 </html>

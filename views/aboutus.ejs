@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Hospital Management System</title>
-    <script src="https://kit.fontawesome.com/c1df782baf.js"></script>
+    <!-- <script src="https://kit.fontawesome.com/c1df782baf.js"></script> -->
+    <script src="https://kit.fontawesome.com/a45dffb59c.js" crossorigin="anonymous"></script>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <style>
@@ -787,361 +788,231 @@
             </div>
         </div>
     </header>
-
-    <!-- Hero Section -->
-    <section class="hero" id="Home">
+       <!-- Hero Section -->
+       <section class="hero" id="Home">
         <div class="hero-content">
             <h1>Best Healthcare Management Solutions</h1>
             <p>Providing innovative and efficient solutions for hospitals and laboratories worldwide. Our comprehensive system optimizes patient care and streamlines operations.</p>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats-container">
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="stat-number">12+</div>
-                <div class="stat-text">Years</div>
+        <!-- Stats Section -->
+        <section class="stats-container">
+            <div class="stats">
+                <% stats.forEach(stat => { %>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="<%= stat.icon %>"></i>
+                        </div>
+                        <div class="stat-number"><%= stat.number %></div>
+                        <div class="stat-text"><%= stat.text %></div>
+                    </div>
+                <% }); %>
             </div>
-            
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-globe"></i>
-                </div>
-                <div class="stat-number">10+</div>
-                <div class="stat-text">Countries</div>
-            </div>
-            
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-city"></i>
-                </div>
-                <div class="stat-number">50+</div>
-                <div class="stat-text">Cities</div>
-            </div>
-            
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-user-md"></i>
-                </div>
-                <div class="stat-number">30K+</div>
-                <div class="stat-text">Doctors</div>
-            </div>
-            
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-file-medical"></i>
-                </div>
-                <div class="stat-number">25M+</div>
-                <div class="stat-text">Patients Records</div>
-            </div>
-            
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-server"></i>
-                </div>
-                <div class="stat-number">99.9%</div>
-                <div class="stat-text">Uptime</div>
-            </div>
-            
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-number">1500+</div>
-                <div class="stat-text">Customers</div>
-            </div>
-        </div>
-    </section>
-
+        </section>
     <!-- About Section -->
     <section class="about-section" id="About">
         <div class="section-title">
-            <h2>About Us</h2>
-            <p>Discover why healthcare facilities around the world trust our management solutions.</p>
+            <h2><%= aboutTitle %></h2>
+            <p><%= aboutTagline %></p>
         </div>
         
         <div class="about-content">
             <div class="about-text">
-                <h3>Revolutionizing Healthcare Management Since 2012</h3>
-                <p>Our healthcare management system has been setting the standard for hospital and laboratory management for over a decade. With a commitment to innovation and excellence, we provide comprehensive solutions that enhance operational efficiency, improve patient care, and streamline administrative tasks.</p>
-                <p>Our mission is to transform healthcare facilities by providing cutting-edge technology that allows medical professionals to focus on what matters most – patient care. By automating routine tasks and providing real-time data insights, our system helps healthcare providers make informed decisions quickly.</p>
+                <h3><%= aboutHeading %></h3>
+                <% aboutParagraphs.forEach(paragraph => { %>
+                    <p><%= paragraph %></p>
+                <% }); %>
                 
                 <div class="about-features">
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
+                    <% features.forEach(feature => { %>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="<%= feature.icon %>"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4><%= feature.title %></h4>
+                                <p><%= feature.description %></p>
+                            </div>
                         </div>
-                        <div class="feature-text">
-                            <h4>Data Security</h4>
-                            <p>HIPAA compliant security protocols to protect sensitive patient information.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-sync"></i>
-                        </div>
-                        <div class="feature-text">
-                            <h4>Real-time Updates</h4>
-                            <p>Instant synchronization across departments for seamless operations.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <div class="feature-text">
-                            <h4>Mobile Access</h4>
-                            <p>Access patient records and hospital data from anywhere, anytime.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="feature-text">
-                            <h4>Advanced Analytics</h4>
-                            <p>Data-driven insights to improve operational efficiency and patient outcomes.</p>
-                        </div>
-                    </div>
+                    <% }); %>
                 </div>
             </div>
             
             <div class="about-image">
-                <img src="/images/about3.jpg" alt="Healthcare professionals">
+                <img src="<%= aboutImage %>" alt="Healthcare professionals">
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section class="services-section" id="Service">
-        <div class="section-title">
-            <h2>Our Services</h2>
-            <p>Comprehensive healthcare management solutions tailored to meet your specific needs.</p>
+ <!-- Services Section -->
+ <section class="services-section" id="Service">
+    <div class="section-title">
+        <h2>Our Services</h2>
+        <p>Comprehensive healthcare management solutions tailored to meet your specific needs.</p>
+    </div>
+    
+    <div class="services-container">
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-user-md"></i>
+            </div>
+            <div class="service-content">
+                <h3>Patient Management</h3>
+                <p>Streamline patient registration, scheduling, billing, and medical record management with our intuitive interface.</p>
+                <a href="#" class="service-btn">Learn More</a>
+            </div>
         </div>
         
-        <div class="services-container">
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-user-md"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Patient Management</h3>
-                    <p>Streamline patient registration, scheduling, billing, and medical record management with our intuitive interface.</p>
-                    <a href="#" class="service-btn">Learn More</a>
-                </div>
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-flask"></i>
             </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-flask"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Laboratory System</h3>
-                    <p>Manage lab tests, specimen collection, results reporting, and inventory with our comprehensive laboratory module.</p>
-                    <a href="#" class="service-btn">Learn More</a>
-                </div>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-pills"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Pharmacy Management</h3>
-                    <p>Control medication inventory, dispensing, billing, and prescription management with our pharmacy system.</p>
-                    <a href="#" class="service-btn">Learn More</a>
-                </div>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-heartbeat"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Electronic Health Records</h3>
-                    <p>Maintain comprehensive digital patient records with secure access and seamless integrations.</p>
-                    <a href="#" class="service-btn">Learn More</a>
-                </div>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-chart-pie"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Reporting & Analytics</h3>
-                    <p>Generate insightful reports and visualize healthcare data to make informed decisions.</p>
-                    <a href="#" class="service-btn">Learn More</a>
-                </div>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-calendar-check"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Appointment Scheduling</h3>
-                    <p>Optimize doctor schedules and patient appointments with our intelligent scheduling system.</p>
-                    <a href="#" class="service-btn">Learn More</a>
-                </div>
+            <div class="service-content">
+                <h3>Laboratory System</h3>
+                <p>Manage lab tests, specimen collection, results reporting, and inventory with our comprehensive laboratory module.</p>
+                <a href="#" class="service-btn">Learn More</a>
             </div>
         </div>
-        <!-- Our Team Section -->
+        
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-pills"></i>
+            </div>
+            <div class="service-content">
+                <h3>Pharmacy Management</h3>
+                <p>Control medication inventory, dispensing, billing, and prescription management with our pharmacy system.</p>
+                <a href="#" class="service-btn">Learn More</a>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <div class="service-content">
+                <h3>Electronic Health Records</h3>
+                <p>Maintain comprehensive digital patient records with secure access and seamless integrations.</p>
+                <a href="#" class="service-btn">Learn More</a>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <div class="service-content">
+                <h3>Reporting & Analytics</h3>
+                <p>Generate insightful reports and visualize healthcare data to make informed decisions.</p>
+                <a href="#" class="service-btn">Learn More</a>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="service-content">
+                <h3>Appointment Scheduling</h3>
+                <p>Optimize doctor schedules and patient appointments with our intelligent scheduling system.</p>
+                <a href="#" class="service-btn">Learn More</a>
+            </div>
+        </div>
+    </div>
+ 
+
+
+    <!-- Team Section -->
     <section class="team-section" id="Team">
         <div class="section-title">
-            <h2>Our Expert Team</h2>
-            <p>Meet the dedicated professionals behind our healthcare management solutions.</p>
+            <h2><%= teamTitle %></h2>
+            <p><%= teamTagline %></p>
         </div>
         
         <div class="team-container">
-            <div class="team-card">
-                <div class="team-image">
-                    <img src="/images/team1.jpg" alt="Doctor">
-                    <div class="team-overlay">
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <% team.forEach(member => { %>
+                <div class="team-card">
+                    <div class="team-image">
+                        <img src="<%= member.image %>" alt="<%= member.name %>">
+                        <div class="team-overlay">
+                            <div class="team-social">
+                                <% member.social.forEach(social => { %>
+                                    <a href="<%= social.link %>"><i class="<%= social.icon %>"></i></a>
+                                <% }); %>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="team-plus">
-                    <i class="fas fa-plus"></i>
-                </div>
-                <div class="team-content">
-                    <h3>Dr. Sarah Johnson</h3>
-                    <p>Chief Medical Officer</p>
-                </div>
-            </div>
-            
-            <div class="team-card">
-                <div class="team-image">
-                    <img src="/images/team2.jpg" alt="Doctor">
-                    <div class="team-overlay">
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
+                    <div class="team-plus">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="team-content">
+                        <h3><%= member.name %></h3>
+                        <p><%= member.position %></p>
                     </div>
                 </div>
-                <div class="team-plus">
-                    <i class="fas fa-plus"></i>
-                </div>
-                <div class="team-content">
-                    <h3>Dr. Michael Chen</h3>
-                    <p>Lead Medical Consultant</p>
-                </div>
-            </div>
-            
-            <div class="team-card">
-                <div class="team-image">
-                    <img src="/images/team3.jpg" alt="Doctor">
-                    <div class="team-overlay">
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-plus">
-                    <i class="fas fa-plus"></i>
-                </div>
-                <div class="team-content">
-                    <h3>Alex Rivera</h3>
-                    <p>Technical Director</p>
-                </div>
-            </div>
-            
-            <div class="team-card">
-                <div class="team-image">
-                    <img src="/images/team4.jpg" alt="Doctor">
-                    <div class="team-overlay">
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-plus">
-                    <i class="fas fa-plus"></i>
-                </div>
-                <div class="team-content">
-                    <h3>Dr. Priya Sharma</h3>
-                    <p>Head of Research</p>
-                </div>
-            </div>
+            <% }); %>
         </div>
     </section>
 
-    <!-- Map Section -->
-    <section class="map-section" id="Network">
-        <div class="section-title">
-            <h2>Our Global Network</h2>
-            <p>Providing healthcare management solutions across 10+ countries and 50+ cities worldwide.</p>
+
+<!-- Map Section -->
+<section class="map-section" id="Network">
+    <div class="section-title">
+        <h2>Our Global Network</h2>
+        <p>Providing healthcare management solutions across 10+ countries and 50+ cities worldwide.</p>
+    </div>
+    
+    <div class="map-container">
+        <div class="map-image">
+            <img src="/images/globalnetwork.jpg" alt="World Map">
+            
+            <!-- India Pin (Headquarters) -->
+            <div class="location-pin india-pin">
+                <div class="pin-pulse"></div>
+                <div class="pin-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="pin-content">
+                    <h4>Headquarters</h4>
+                    <p>Chandigarh, India</p>
+                </div>
+            </div>
         </div>
         
-        <div class="map-container">
-            <div class="map-image">
-                <img src="/images/globalnetwork.jpg" alt="World Map">
-                
-                <!-- India Pin (Headquarters) -->
-                <div class="location-pin india-pin">
-                    <div class="pin-pulse"></div>
-                    <div class="pin-icon">
-                        <i class="fas fa-building"></i>
+        <div class="map-content">
+            <h3>Expanding Our Reach</h3>
+            <p>With our headquarters in Chandigarh, India, our healthcare management system has expanded to serve hospitals and laboratories across the globe. Our dedicated teams provide localized support while maintaining the same high standards of quality and reliability.</p>
+            <p>Our global presence allows us to understand diverse healthcare needs and incorporate international best practices into our solutions, making them adaptable to different healthcare systems worldwide.</p>
+            
+            <div class="location-list">
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <div class="pin-content">
+                    <div class="location-text">
                         <h4>Headquarters</h4>
-                        <p>Chandigarh, India</p>
+                        <p>IT Park, Phase 1</p>
+                        <p>Chandigarh, India 160101</p>
                     </div>
                 </div>
-            </div>
-            
-            <div class="map-content">
-                <h3>Expanding Our Reach</h3>
-                <p>With our headquarters in Chandigarh, India, our healthcare management system has expanded to serve hospitals and laboratories across the globe. Our dedicated teams provide localized support while maintaining the same high standards of quality and reliability.</p>
-                <p>Our global presence allows us to understand diverse healthcare needs and incorporate international best practices into our solutions, making them adaptable to different healthcare systems worldwide.</p>
                 
-                <div class="location-list">
-                    <div class="location-item">
-                        <div class="location-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="location-text">
-                            <h4>Headquarters</h4>
-                            <p>IT Park, Phase 1</p>
-                            <p>Chandigarh, India 160101</p>
-                        </div>
+                <div class="location-item">
+                    <div class="location-icon">
+                        <i class="fas fa-phone-alt"></i>
                     </div>
-                    
-                    <div class="location-item">
-                        <div class="location-icon">
-                            <i class="fas fa-phone-alt"></i>
-                        </div>
-                        <div class="location-text">
-                            <h4>Contact Us</h4>
-                            <p>Phone: +91 172 4567890</p>
-                            <p>Email: info@docteryhospital.com</p>
-                        </div>
+                    <div class="location-text">
+                        <h4>Contact Us</h4>
+                        <p>Phone: +91 172 4567890</p>
+                        <p>Email: info@docteryhospital.com</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
     <footer style="background-color: #333; color: white; padding: 4rem 7%; text-align: center;">
-        <p style="font-size: 1.4rem; margin-bottom: 1rem;">© 2025 DOCTERY-HOSPITAL Solutions. All Rights Reserved.</p>
+        <p style="font-size: 1.4rem; margin-bottom: 1rem;">© <%= new Date().getFullYear() %> DOCTERY-HOSPITAL Solutions. All Rights Reserved.</p>
         <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;">
             <a href="#" style="color: white; font-size: 2rem;"><i class="fab fa-facebook"></i></a>
             <a href="#" style="color: white; font-size: 2rem;"><i class="fab fa-twitter"></i></a>

@@ -22,5 +22,20 @@
   {
     "username": "Jaat",
     "password": "Anuj@2005"
+  },
+  {
+    "username": "chitkara",
+    "password": "$2b$10$E6WIR0Ap/b1RctVIiYiCCuYHNsupOa5CTZN/AG3C8jZOBBh8zQayu",
+    "createdAt": "2025-04-15T09:23:56.523Z"
+  },
+  {
+    "username": "hii",
+    "password": "$2b$10$QVZm1WPzAAw7Egz0lzHZGeXFYCDm2cnsn2VXTrc1AXeEGduumnJCi",
+    "createdAt": "2025-04-15T09:27:48.752Z"
+  },
+  {
+    "username": "dixu",
+    "password": "$2b$10$DzHEWxyfsnscDLIg0YhqJ.CEhHAawZwFAUyl8qMi5bokHyXlZgU52",
+    "createdAt": "2026-06-05T15:57:13.955Z"
   }
 ]

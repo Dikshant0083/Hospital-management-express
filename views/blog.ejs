@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Details - Hospital Management Website</title>
+    <!-- <title>Blog Details - Hospital Management Website</title> -->
+    <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Blog Details - Hospital Management Website' %></title>
 
     <script src="https://kit.fontawesome.com/c1df782baf.js"></script>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
@@ -845,6 +846,197 @@ header {
     background: var(--secondcolor);
     transform: translateY(-5px);
 }
+/* Footer */
+.footer {
+    background-color: #2b3540;
+    padding: 5rem 7% 2rem;
+    margin-top: 5rem;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap: 4rem;
+}
+
+.footer-logo {
+    width: 150px;
+    margin-bottom: 2rem;
+}
+
+.footer-about p {
+    font-size: 1.5rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--maincolor);
+    transform: translateY(-5px);
+}
+
+.footer-heading {
+    font-size: 2.2rem;
+    color: white;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    width: 5rem;
+    height: 2px;
+    background-color: var(--maincolor);
+}
+
+.quick-links {
+    list-style: none;
+}
+
+.quick-links li {
+    margin-bottom: 1.2rem;
+}
+
+.quick-links a {
+    font-size: 1.5rem;
+    color: #ccc;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.quick-links a:hover {
+    color: var(--maincolor);
+    transform: translateX(5px);
+}
+
+.contact-info {
+    list-style: none;
+}
+
+.contact-info li {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: var(--maincolor);
+    flex-shrink: 0;
+}
+
+.contact-content {
+    flex: 1;
+}
+
+.contact-content h4 {
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.contact-content p {
+    font-size: 1.5rem;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.footer-newsletter p {
+    font-size: 1.5rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.newsletter-form {
+    display: flex;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.newsletter-input {
+    flex: 1;
+    padding: 1.2rem;
+    font-size: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.newsletter-input::placeholder {
+    color: #ccc;
+}
+
+.newsletter-btn {
+    padding: 0 2rem;
+    background-color: var(--maincolor);
+    color: white;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.newsletter-btn:hover {
+    background-color: var(--secondcolor);
+}
+
+.footer-bottom {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 1.5rem;
+    color: #ccc;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(2rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fadeIn {
+    animation: fadeIn 0.8s ease forwards;
+}
+
     </style>
 </head>
 <body> 
@@ -874,8 +1066,8 @@ header {
     <!-- Blog Banner Section -->
     <div class="blog-banner">
         <div class="blog-banner-content">
-            <h1>Our Blog</h1>
-            <p>Stay informed with the latest health tips and medical advancements</p>
+            <h1><%= typeof blogTitle !== 'undefined' ? blogTitle : 'Our Blog' %></h1>
+            <p><%= typeof blogSubtitle !== 'undefined' ? blogSubtitle : 'Stay informed with the latest health tips and medical advancements' %></p>
         </div>
     </div>
 
@@ -884,69 +1076,73 @@ header {
         <!-- Main Blog Content -->
         <div class="blog-main">
             <div class="blog-image">
-                <img src="images/about1.png" alt="Blog Featured Image">
+                <img src="<%= typeof blogImage !== 'undefined' ? blogImage : 'images/about1.png' %>" alt="Blog Featured Image">
             </div>
             
             <div class="blog-meta">
-                <span><i class="fa-regular fa-calendar"></i> March 3, 2025</span>
-                <span><i class="fa-regular fa-user"></i> Dr. Sarah Johnson</span>
-                <span><i class="fa-regular fa-folder"></i> Health Tips</span>
-                <span><i class="fa-regular fa-comments"></i> 24 Comments</span>
+                <span><i class="fa-regular fa-calendar"></i> <%= typeof blogDate !== 'undefined' ? blogDate : 'March 3, 2025' %></span>
+                <span><i class="fa-regular fa-user"></i> <%= typeof blogAuthor !== 'undefined' ? blogAuthor : 'Dr. Sarah Johnson' %></span>
+                <span><i class="fa-regular fa-folder"></i> <%= typeof blogCategory !== 'undefined' ? blogCategory : 'Health Tips' %></span>
+                <span><i class="fa-regular fa-comments"></i> <%= typeof commentCount !== 'undefined' ? commentCount : '24' %> Comments</span>
             </div>
             
             <div class="blog-content">
-                <h1>The Importance of Preventive Healthcare in Modern Life</h1>
+                <h1><%= typeof postTitle !== 'undefined' ? postTitle : 'The Importance of Preventive Healthcare in Modern Life' %></h1>
                 
-                <p>In today's fast-paced world, preventive healthcare has become more important than ever. With increasing stress levels, environmental pollutants, and sedentary lifestyles, taking proactive steps to maintain good health is essential for longevity and quality of life.</p>
-                
-                <p>Preventive healthcare encompasses a wide range of practices designed to prevent illness, detect potential health issues early, and promote overall wellness. From regular check-ups and screenings to lifestyle modifications, these measures can significantly reduce the risk of developing serious health conditions.</p>
-                
-                <h2>Key Components of Preventive Healthcare</h2>
-                
-                <ul>
-                    <li><strong>Regular Health Screenings:</strong> Routine check-ups and screenings can detect health issues before they become serious problems. These may include blood pressure checks, cholesterol tests, cancer screenings, and more.</li>
-                    <li><strong>Vaccinations:</strong> Immunizations protect against various infectious diseases and are an essential part of preventive healthcare for people of all ages.</li>
-                    <li><strong>Healthy Diet:</strong> A balanced diet rich in fruits, vegetables, whole grains, and lean proteins provides the nutrients your body needs to function optimally.</li>
-                    <li><strong>Regular Exercise:</strong> Physical activity helps maintain a healthy weight, strengthens the cardiovascular system, and improves mental health.</li>
-                    <li><strong>Stress Management:</strong> Chronic stress can contribute to numerous health problems. Techniques such as meditation, yoga, and deep breathing can help manage stress effectively.</li>
-                </ul>
-                
-                <div class="blog-quote">
-                    <p>"An ounce of prevention is worth a pound of cure. The best time to take care of your health is before you get sick."</p>
-                    <cite>- Dr. Michael Anderson, Chief of Preventive Medicine</cite>
-                </div>
-                
-                <h2>The Economic Benefits of Preventive Care</h2>
-                
-                <p>Beyond the obvious health benefits, preventive healthcare also makes economic sense. Treating chronic diseases and serious health conditions is often much more expensive than preventing them in the first place. According to studies, every dollar spent on preventive care can save several dollars in treatment costs down the line.</p>
-                
-                <p>For healthcare systems and insurance providers, promoting preventive care can lead to significant cost savings. For individuals, it means fewer medical bills, less time off work due to illness, and a better quality of life.</p>
-                
-                <h2>Integrating Preventive Care into Your Life</h2>
-                
-                <p>Making preventive healthcare a priority doesn't have to be overwhelming. Start with small, manageable changes to your lifestyle and gradually build upon them. Schedule regular check-ups with your healthcare provider, stay up-to-date on recommended screenings and vaccinations, and make healthy choices in your daily life.</p>
-                
-                <p>Remember that preventive healthcare is not just about avoiding illness—it's about optimizing your health and well-being. By taking proactive steps today, you're investing in a healthier, happier future for yourself and your loved ones.</p>
+                <% if (typeof postContent !== 'undefined' && postContent) { %>
+                    <%- postContent %>
+                <% } else { %>
+                    <p>In today's fast-paced world, preventive healthcare has become more important than ever. With increasing stress levels, environmental pollutants, and sedentary lifestyles, taking proactive steps to maintain good health is essential for longevity and quality of life.</p>
+                    
+                    <p>Preventive healthcare encompasses a wide range of practices designed to prevent illness, detect potential health issues early, and promote overall wellness. From regular check-ups and screenings to lifestyle modifications, these measures can significantly reduce the risk of developing serious health conditions.</p>
+                    
+                    <h2>Key Components of Preventive Healthcare</h2>
+                    
+                    <ul>
+                        <li><strong>Regular Health Screenings:</strong> Routine check-ups and screenings can detect health issues before they become serious problems. These may include blood pressure checks, cholesterol tests, cancer screenings, and more.</li>
+                        <li><strong>Vaccinations:</strong> Immunizations protect against various infectious diseases and are an essential part of preventive healthcare for people of all ages.</li>
+                        <li><strong>Healthy Diet:</strong> A balanced diet rich in fruits, vegetables, whole grains, and lean proteins provides the nutrients your body needs to function optimally.</li>
+                        <li><strong>Regular Exercise:</strong> Physical activity helps maintain a healthy weight, strengthens the cardiovascular system, and improves mental health.</li>
+                        <li><strong>Stress Management:</strong> Chronic stress can contribute to numerous health problems. Techniques such as meditation, yoga, and deep breathing can help manage stress effectively.</li>
+                    </ul>
+                    
+                    <div class="blog-quote">
+                        <p>"An ounce of prevention is worth a pound of cure. The best time to take care of your health is before you get sick."</p>
+                        <cite>- Dr. Michael Anderson, Chief of Preventive Medicine</cite>
+                    </div>
+                    
+                    <h2>The Economic Benefits of Preventive Care</h2>
+                    
+                    <p>Beyond the obvious health benefits, preventive healthcare also makes economic sense. Treating chronic diseases and serious health conditions is often much more expensive than preventing them in the first place. According to studies, every dollar spent on preventive care can save several dollars in treatment costs down the line.</p>
+                    
+                    <p>For healthcare systems and insurance providers, promoting preventive care can lead to significant cost savings. For individuals, it means fewer medical bills, less time off work due to illness, and a better quality of life.</p>
+                    
+                    <h2>Integrating Preventive Care into Your Life</h2>
+                    
+                    <p>Making preventive healthcare a priority doesn't have to be overwhelming. Start with small, manageable changes to your lifestyle and gradually build upon them. Schedule regular check-ups with your healthcare provider, stay up-to-date on recommended screenings and vaccinations, and make healthy choices in your daily life.</p>
+                    
+                    <p>Remember that preventive healthcare is not just about avoiding illness—it's about optimizing your health and well-being. By taking proactive steps today, you're investing in a healthier, happier future for yourself and your loved ones.</p>
+                <% } %>
             </div>
             
             <!-- Comment Section -->
             <div class="comment-section">
                 <h2>Leave a Comment</h2>
                 
-                <form class="comment-form">
+                <form class="comment-form" action="<%= typeof commentAction !== 'undefined' ? commentAction : '/blog/comment' %>" method="POST">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" placeholder="Your Name" required>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Your Email" required>
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="message">Message</label>
-                        <textarea id="message" placeholder="Your Comment" required></textarea>
+                        <textarea id="message" name="message" placeholder="Your Comment" required></textarea>
                     </div>
                     
                     <button type="submit" class="submit-btn">Submit Comment</button>
@@ -960,15 +1156,21 @@ header {
             <div class="sidebar-widget">
                 <h3>Our Treatments</h3>
                 <ul class="category-list">
-                    <li><a href="#">Dental Care <span>18</span></a></li>
-                    <li><a href="#">Orthopedics <span>12</span></a></li>
-                    <li><a href="#">Cardiology <span>15</span></a></li>
-                    <li><a href="#">Neurology <span>9</span></a></li>
-                    <li><a href="#">Pediatrics <span>14</span></a></li>
-                    <li><a href="#">Ophthalmology <span>7</span></a></li>
-                    <li><a href="#">Dermatology <span>10</span></a></li>
-                    <li><a href="#">Gynecology <span>11</span></a></li>
-                    <li><a href="#">Physiotherapy <span>8</span></a></li>
+                    <% if(typeof treatments !== 'undefined' && treatments && treatments.length > 0) { %>
+                        <% treatments.forEach(function(treatment) { %>
+                            <li><a href="<%= treatment.link %>"><%= treatment.name %> <span><%= treatment.count %></span></a></li>
+                        <% }); %>
+                    <% } else { %>
+                        <li><a href="#">Dental Care <span>18</span></a></li>
+                        <li><a href="#">Orthopedics <span>12</span></a></li>
+                        <li><a href="#">Cardiology <span>15</span></a></li>
+                        <li><a href="#">Neurology <span>9</span></a></li>
+                        <li><a href="#">Pediatrics <span>14</span></a></li>
+                        <li><a href="#">Ophthalmology <span>7</span></a></li>
+                        <li><a href="#">Dermatology <span>10</span></a></li>
+                        <li><a href="#">Gynecology <span>11</span></a></li>
+                        <li><a href="#">Physiotherapy <span>8</span></a></li>
+                    <% } %>
                 </ul>
             </div>
             
@@ -976,142 +1178,154 @@ header {
             <div class="sidebar-widget">
                 <h3>Recent Posts</h3>
                 
-                <div class="recent-post">
-                    <div class="recent-post-img">
-                        <img src="images/team1.jpg" alt="Recent Post">
+                <% if(typeof recentPosts !== 'undefined' && recentPosts && recentPosts.length > 0) { %>
+                    <% recentPosts.forEach(function(post) { %>
+                        <div class="recent-post">
+                            <div class="recent-post-img">
+                                <img src="<%= post.image %>" alt="<%= post.title %>">
+                            </div>
+                            <div class="recent-post-info">
+                                <h4><a href="<%= post.link %>"><%= post.title %></a></h4>
+                                <span><%= post.date %></span>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="recent-post">
+                        <div class="recent-post-img">
+                            <img src="images/team1.jpg" alt="Recent Post">
+                        </div>
+                        <div class="recent-post-info">
+                            <h4><a href="#">Understanding Cardiovascular Health</a></h4>
+                            <span>February 28, 2025</span>
+                        </div>
                     </div>
-                    <div class="recent-post-info">
-                        <h4><a href="#">Understanding Cardiovascular Health</a></h4>
-                        <span>February 28, 2025</span>
+                    
+                    <div class="recent-post">
+                        <div class="recent-post-img">
+                            <img src="images/team2.jpg" alt="Recent Post">
+                        </div>
+                        <div class="recent-post-info">
+                            <h4><a href="#">The Benefits of Regular Exercise</a></h4>
+                            <span>February 25, 2025</span>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="recent-post">
-                    <div class="recent-post-img">
-                        <img src="images/team2.jpg" alt="Recent Post">
+                    
+                    <div class="recent-post">
+                        <div class="recent-post-img">
+                            <img src="images/team3.jpg" alt="Recent Post">
+                        </div>
+                        <div class="recent-post-info">
+                            <h4><a href="#">Nutrition Tips for a Healthy Life</a></h4>
+                            <span>February 20, 2025</span>
+                        </div>
                     </div>
-                    <div class="recent-post-info">
-                        <h4><a href="#">The Benefits of Regular Exercise</a></h4>
-                        <span>February 25, 2025</span>
-                    </div>
-                </div>
-                
-                <div class="recent-post">
-                    <div class="recent-post-img">
-                        <img src="images/team3.jpg" alt="Recent Post">
-                    </div>
-                    <div class="recent-post-info">
-                        <h4><a href="#">Nutrition Tips for a Healthy Life</a></h4>
-                        <span>February 20, 2025</span>
-                    </div>
-                </div>
+                <% } %>
             </div>
             
             <!-- Tags Widget -->
             <div class="sidebar-widget">
                 <h3>Tags</h3>
                 <div class="tag-cloud">
-                    <a href="#">Health</a>
-                    <a href="#">Medicine</a>
-                    <a href="#">Doctors</a>
-                    <a href="#">Wellness</a>
-                    <a href="#">Nutrition</a>
-                    <a href="#">Fitness</a>
-                    <a href="#">Mental Health</a>
-                    <a href="#">Prevention</a>
-                    <a href="#">Lifestyle</a>
+                    <% if(typeof tags !== 'undefined' && tags && tags.length > 0) { %>
+                        <% tags.forEach(function(tag) { %>
+                            <a href="<%= tag.link %>"><%= tag.name %></a>
+                        <% }); %>
+                    <% } else { %>
+                        <a href="#">Health</a>
+                        <a href="#">Medicine</a>
+                        <a href="#">Doctors</a>
+                        <a href="#">Wellness</a>
+                        <a href="#">Nutrition</a>
+                        <a href="#">Fitness</a>
+                        <a href="#">Mental Health</a>
+                        <a href="#">Prevention</a>
+                        <a href="#">Lifestyle</a>
+                    <% } %>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer Section -->
-    <div class="main-footer">
-        <div class="footer-inner">
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <img src="/images/logo.png" alt="Hospital Logo" class="footer-logo">
+                <p><%= typeof footerAbout !== 'undefined' ? footerAbout : 'Providing world-class healthcare services with advanced technologies and compassionate care. Our hospital management system streamlines operations to focus on what matters most - patient care.' %></p>
+                <div class="social-links">
+                    <a href="<%= typeof social !== 'undefined' && social && social.facebook ? social.facebook : '#' %>"><i class="fab fa-facebook-f"></i></a>
+                    <a href="<%= typeof social !== 'undefined' && social && social.twitter ? social.twitter : '#' %>"><i class="fab fa-twitter"></i></a>
+                    <a href="<%= typeof social !== 'undefined' && social && social.linkedin ? social.linkedin : '#' %>"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="<%= typeof social !== 'undefined' && social && social.instagram ? social.instagram : '#' %>"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
 
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                </div>
+            <div class="footer-links">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-menu">
+                    <% if(typeof footerLinks !== 'undefined' && footerLinks && footerLinks.length > 0) { %>
+                        <% footerLinks.forEach(function(link) { %>
+                            <li><a href="<%= link.url %>"><%= link.name %></a></li>
+                        <% }); %>
+                    <% } else { %>
+                        <li><a href="/index">Home</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/doctors">Doctors</a></li>
+                        <li><a href="/patients">Patients</a></li>
+                        <li><a href="/appointment">Appointments</a></li>
+                        <li><a href="#records">Records</a></li>
+                    <% } %>
+                </ul>
             </div>
 
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                </div>
+            <div class="footer-contact">
+                <h3 class="footer-title">Contact Us</h3>
+                <p><i class="fi fi-rr-map-marker"></i> <%= typeof contact !== 'undefined' && contact && contact.address ? contact.address : 'Chandigarh IT Park, Phase 1' %></p>
+                <p><i class="fi fi-rr-phone-call"></i> <%= typeof contact !== 'undefined' && contact && contact.phone ? contact.phone : '+1 (555) 123-4567' %></p>
+                <p><i class="fi fi-rr-envelope"></i> <%= typeof contact !== 'undefined' && contact && contact.email ? contact.email : 'contact@hospital.com' %></p>
             </div>
 
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                </div>
-            </div>
-
-            <div class="footer-content">
-                <h1>Dummy Links</h1>
-                <div class="link">
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                    <a href="">Home</a>
-                </div>
+            <div class="footer-newsletter">
+                <h3 class="footer-title">Newsletter</h3>
+                <p><%= typeof newsletterText !== 'undefined' ? newsletterText : 'Subscribe to our newsletter to receive updates on health tips, hospital news, and special health programs.' %></p>
+                <form class="newsletter-form" action="<%= typeof newsletterAction !== 'undefined' ? newsletterAction : '/subscribe' %>" method="POST">
+                    <input type="email" name="email" placeholder="Your Email Address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
             </div>
         </div>
-    </div>
 
-    <script>
-        // Menu toggle functionality
-        let menu = document.querySelector('#menu-bars');
-        let navbar = document.querySelector('.navbar');
+        <div class="footer-bottom">
+            <p>&copy; <%= typeof currentYear !== 'undefined' ? currentYear : '2025' %> <%= typeof siteName !== 'undefined' ? siteName : 'Hospital Management System' %>. All Rights Reserved.</p>
+        </div>
+    </footer>
+<script>
+    // Menu toggle functionality
+    // Menu toggle functionality
+    let menu = document.querySelector('#menu-bars');
+    let navbar = document.querySelector('.navbar');
 
-        menu.onclick = () => {
-            menu.classList.toggle('fa-times');
-            navbar.classList.toggle('active');
-        }
+    menu.onclick = () => {
+        menu.classList.toggle('fa-times');
+        navbar.classList.toggle('active');
+    }
 
-        // Form submission handling
-        const commentForm = document.querySelector('.comment-form');
+    // Form submission handling
+    const commentForm = document.querySelector('.comment-form');
+    if (commentForm && !commentActionEnabled) {
         commentForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
-            
-            // Here you would typically send this data to a server
-            // For now, we'll just show an alert
+
             alert(`Thank you ${name} for your comment! We'll review it shortly.`);
-            
-            // Clear the form
             commentForm.reset();
         });
-    </script>
+    }
+</script>
+
 
 </body>
 </html>

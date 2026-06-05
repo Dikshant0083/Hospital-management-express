@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - Hospital Management</title>
+    <title><%= typeof title !== 'undefined' ? title : 'Gallery - Hospital Management' %></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <style>
@@ -415,7 +415,7 @@
 </head>
 <body>
     <header>
-        <div class="logo"><img src="/images/logo3.png" alt="Hospital Logo"></div>
+        <div class="logo"><img src="<%= typeof logoPath !== 'undefined' ? logoPath : '/images/logo3.png' %>" alt="Hospital Logo"></div>
         <nav class="navbar">
             <a href="/index">Home</a>
             <a href="/aboutus">About</a>
@@ -440,8 +440,8 @@
 
     <section class="gallery-container">
         <div class="gallery-heading">
-            <h2>Our Medical Gallery</h2>
-            <p>Explore our state-of-the-art facilities, dedicated medical staff, and patient care environments designed for healing and comfort.</p>
+            <h2><%= typeof galleryTitle !== 'undefined' ? galleryTitle : 'Our Medical Gallery' %></h2>
+            <p><%= typeof galleryDescription !== 'undefined' ? galleryDescription : 'Explore our state-of-the-art facilities, dedicated medical staff, and patient care environments designed for healing and comfort.' %></p>
         </div>
 
         <div class="gallery-filter">
@@ -453,149 +453,172 @@
         </div>
 
         <div class="gallery-grid">
-            <div class="gallery-item" data-category="facilities">
-                <img src="/images/reception.jpg" alt="Hospital Lobby" class="gallery-img">
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Modern Reception</h3>
-                    <p class="gallery-category">Facilities</p>
-                    <div class="gallery-icons">
-                        <div class="gallery-icon view-image">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="gallery-icon">
-                            <i class="fas fa-link"></i>
+            <% if (typeof galleryItems !== 'undefined' && galleryItems.length > 0) { %>
+                <% galleryItems.forEach(item => { %>
+                    <div class="gallery-item" data-category="<%= item.category %>">
+                        <img src="<%= item.imgSrc %>" alt="<%= item.imgAlt %>" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <h3 class="gallery-title"><%= item.title %></h3>
+                            <p class="gallery-category"><%= item.categoryName %></p>
+                            <div class="gallery-icons">
+                                <div class="gallery-icon view-image">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="gallery-icon">
+                                    <i class="fas fa-link"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                <% }); %>
+            <% }
             
-            <div class="gallery-item" data-category="equipment">
-                <img src="/images/mri1.png" alt="MRI Machine" class="gallery-img">
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Advanced MRI</h3>
-                    <p class="gallery-category">Equipment</p>
-                    <div class="gallery-icons">
-                        <div class="gallery-icon view-image">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="gallery-icon">
-                            <i class="fas fa-link"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="gallery-item" data-category="staff">
-                <img src="/images/ourteam.jpg" alt="Doctor Team" class="gallery-img">
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Expert Physicians</h3>
-                    <p class="gallery-category">Medical Staff</p>
-                    <div class="gallery-icons">
-                        <div class="gallery-icon view-image">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="gallery-icon">
-                            <i class="fas fa-link"></i>
+            else { %>
+                <!-- Default gallery items if no dynamic data is provided -->
+                <div class="gallery-item" data-category="facilities">
+                    <img src="/images/reception.jpg" alt="Hospital Lobby" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Modern Reception</h3>
+                        <p class="gallery-category">Facilities</p>
+                        <div class="gallery-icons">
+                            <div class="gallery-icon view-image">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="gallery-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="gallery-item" data-category="facilities">
-                <img src="/images/patientroom.jpg" alt="Patient Room" class="gallery-img">
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Comfortable Rooms</h3>
-                    <p class="gallery-category">Facilities</p>
-                    <div class="gallery-icons">
-                        <div class="gallery-icon view-image">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="gallery-icon">
-                            <i class="fas fa-link"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="gallery-item" data-category="events">
-                <img src="/images/conference.jpg" alt="Medical Conference" class="gallery-img">
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Annual Conference</h3>
-                    <p class="gallery-category">Events</p>
-                    <div class="gallery-icons">
-                        <div class="gallery-icon view-image">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="gallery-icon">
-                            <i class="fas fa-link"></i>
+                
+                <div class="gallery-item" data-category="equipment">
+                    <img src="/images/mri1.png" alt="MRI Machine" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Advanced MRI</h3>
+                        <p class="gallery-category">Equipment</p>
+                        <div class="gallery-icons">
+                            <div class="gallery-icon view-image">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="gallery-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="gallery-item" data-category="equipment">
-                <img src="/images/lab1.jpg" alt="Lab Equipment" class="gallery-img">
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Modern Laboratory</h3>
-                    <p class="gallery-category">Equipment</p>
-                    <div class="gallery-icons">
-                        <div class="gallery-icon view-image">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="gallery-icon">
-                            <i class="fas fa-link"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="gallery-item" data-category="staff">
-                <img src="/images/nurse.jpg" alt="Nurses" class="gallery-img">
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Nursing Staff</h3>
-                    <p class="gallery-category">Medical Staff</p>
-                    <div class="gallery-icons">
-                        <div class="gallery-icon view-image">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="gallery-icon">
-                            <i class="fas fa-link"></i>
+                
+                <div class="gallery-item" data-category="staff">
+                    <img src="/images/ourteam.jpg" alt="Doctor Team" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Expert Physicians</h3>
+                        <p class="gallery-category">Medical Staff</p>
+                        <div class="gallery-icons">
+                            <div class="gallery-icon view-image">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="gallery-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="gallery-item" data-category="events">
-                <img src="/images/charityevent.jpg" alt="Charity Event" class="gallery-img">
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Community Outreach</h3>
-                    <p class="gallery-category">Events</p>
-                    <div class="gallery-icons">
-                        <div class="gallery-icon view-image">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="gallery-icon">
-                            <i class="fas fa-link"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="gallery-item" data-category="facilities">
-                <img src="/images/operation1.jpg" alt="Operation Theater" class="gallery-img">
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Operation Theater</h3>
-                    <p class="gallery-category">Facilities</p>
-                    <div class="gallery-icons">
-                        <div class="gallery-icon view-image">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="gallery-icon">
-                            <i class="fas fa-link"></i>
+                
+                <div class="gallery-item" data-category="facilities">
+                    <img src="/images/patientroom.jpg" alt="Patient Room" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Comfortable Rooms</h3>
+                        <p class="gallery-category">Facilities</p>
+                        <div class="gallery-icons">
+                            <div class="gallery-icon view-image">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="gallery-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                
+                <div class="gallery-item" data-category="events">
+                    <img src="/images/conference.jpg" alt="Medical Conference" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Annual Conference</h3>
+                        <p class="gallery-category">Events</p>
+                        <div class="gallery-icons">
+                            <div class="gallery-icon view-image">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="gallery-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="equipment">
+                    <img src="/images/lab1.jpg" alt="Lab Equipment" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Modern Laboratory</h3>
+                        <p class="gallery-category">Equipment</p>
+                        <div class="gallery-icons">
+                            <div class="gallery-icon view-image">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="gallery-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="staff">
+                    <img src="/images/nurse.jpg" alt="Nurses" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Nursing Staff</h3>
+                        <p class="gallery-category">Medical Staff</p>
+                        <div class="gallery-icons">
+                            <div class="gallery-icon view-image">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="gallery-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="events">
+                    <img src="/images/charityevent.jpg" alt="Charity Event" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Community Outreach</h3>
+                        <p class="gallery-category">Events</p>
+                        <div class="gallery-icons">
+                            <div class="gallery-icon view-image">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="gallery-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="facilities">
+                    <img src="/images/operation1.jpg" alt="Operation Theater" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Operation Theater</h3>
+                        <p class="gallery-category">Facilities</p>
+                        <div class="gallery-icons">
+                            <div class="gallery-icon view-image">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="gallery-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
         </div>
     </section>
 
@@ -694,9 +717,9 @@
                 document.body.style.overflow = 'auto';
             }
         });
-
         // Close lightbox with Escape key
         document.addEventListener('keydown', (e) => {
+
             if (e.key === 'Escape' && lightbox.classList.contains('active')) {
                 lightbox.classList.remove('active');
                 
