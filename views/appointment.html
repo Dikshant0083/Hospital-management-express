@@ -487,7 +487,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Configuration
-            const API_URL = 'http://localhost:5000/api';
+            const API_URL = '/api';
             
             // DOM Elements
             const menuBars = document.getElementById('menu-bars');
@@ -590,7 +590,7 @@
                         };
 
                         // Save to MongoDB via API
-                        const response = await fetch(`${API_URL}/appointments`, {
+                        const response = await fetch(`/api/appointments`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -605,6 +605,21 @@
                             showSuccess('Appointment successfully booked! An email confirmation has been sent.');
                             // Reset form
                             appointmentForm.reset();
+
+                            // Immediately display the created appointment in the appointments list
+                            if (result.appointment) {
+                                // populate search input with the appointment email
+                                if (searchEmailInput) searchEmailInput.value = result.appointment.email || '';
+
+                                // switch to appointments tab
+                                tabs.forEach(t => t.classList.remove('active'));
+                                tabContents.forEach(c => c.classList.remove('active'));
+                                document.querySelector('.tab[data-tab="appointment-list"]')?.classList.add('active');
+                                document.getElementById('appointment-list')?.classList.add('active');
+
+                                // show the newly created appointment
+                                displayAppointments([result.appointment]);
+                            }
                         } else {
                             showError('Failed to book appointment: ' + result.message);
                         }

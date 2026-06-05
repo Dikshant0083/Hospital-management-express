@@ -16,7 +16,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 require('dotenv').config();
 // Define port with fallback options
-const PORT = process.env.PORT || 3000 
+let PORT = process.env.PORT || 3000 
 
 // Basic middleware setup
 app.use(express.json())
@@ -413,29 +413,39 @@ const sendEmailNotification = async (appointmentData) => {
 
 // Create a new appointment
 app.post('/api/appointments', async (req, res) => {
-    try {
-        const appointmentData = req.body;
-        
-        // Create a new appointment document
-        const appointment = new Appointment(appointmentData);
-        await appointment.save();
-        
-        // Send email notification
-        await sendEmailNotification(appointmentData);
-        
-        res.status(201).json({ 
-            success: true, 
-            message: 'Appointment created successfully',
-            appointment 
-        });
-    } catch (error) {
-        console.error('Error creating appointment:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Failed to create appointment',
-            error: error.message 
-        });
+  try {
+    const appointmentData = req.body;
+
+    console.log('POST /api/appointments - received body:', appointmentData);
+
+    // Basic server-side validation
+    if (!appointmentData || !appointmentData.email || !appointmentData.firstName || !appointmentData.doctor) {
+      console.warn('Validation failed for appointment data:', appointmentData);
+      return res.status(400).json({ success: false, message: 'Missing required appointment fields' });
     }
+
+    // Create a new appointment document
+    const appointment = new Appointment(appointmentData);
+    await appointment.save();
+
+    // Send email notification asynchronously (do not block response)
+    sendEmailNotification(appointmentData).catch(err => {
+      console.error('Email notify failed (async):', err);
+    });
+
+    res.status(201).json({ 
+      success: true, 
+      message: 'Appointment created successfully',
+      appointment 
+    });
+  } catch (error) {
+    console.error('Error creating appointment:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to create appointment',
+      error: error.message 
+    });
+  }
 });
 
 // Get all appointments
@@ -459,7 +469,8 @@ app.get('/api/appointments', async (req, res) => {
 // Get appointments by email
 app.get('/api/appointments/:email', async (req, res) => {
     try {
-        const { email } = req.params;
+    const { email } = req.params;
+    console.log('GET /api/appointments/:email - email param:', email);
         const appointments = await Appointment.find({ email }).sort({ createdAt: -1 });
         res.status(200).json({ 
             success: true, 
